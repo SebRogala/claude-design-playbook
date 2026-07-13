@@ -1,0 +1,99 @@
+# HANDOFF.md — the 1:1 agent-handoff playbook (read this ONLY at handoff time)
+
+> Read this when the user asks to hand off to a coding agent — not during design. Blank
+> skeletons for each artifact are in `templates/`; copy them in and fill them out.
+
+**Goal:** a package a coding agent can implement faithfully and unattended, producing **the real,
+shipped application with data mocked** — not a preview. The deliverable is the final product at its
+real route, in the real app shell, using real app components, indistinguishable from production
+except that mock data sits at the real controller→template seam (so going live = swap the source
+only). The reference PNGs define *visual fidelity*; they are not the delivery format. **Scope stops
+at the controller→template seam: the mock is a fixture placed at that boundary — the agent builds
+NO backend (no entities, migrations, repositories, endpoints, services, DTOs, schema, or wiring);
+backend architecture is a separate task.** Anti-patterns the agent must avoid: preview/gallery pages, device-bezel mockups, in-app light+dark side-by-side,
+bespoke re-styling where a real component exists. Prose specs get satisficed — agents build the
+happy path, invent simpler data, drop buried edge cases, and ship previews instead of the real
+view. What prevents that: a **checkable contract + ground-truth images + a forced self-verify loop
++ small scoped per-screen tasks + an explicit deliverable-shape rule (`AGENT.md` §0).**
+
+Produce ALL of the following in `handoffs/<name>/` — keep every handoff under a single top-level
+`handoffs/` folder (so they don't clutter the project root), one subfolder per handoff. Name
+`<name>` by the view's Index breadcrumb path for a single view (e.g. `Admin CRM → Harmonogram →
+Wydarzenie → Obecność`), or by the surface(s) covered for a multi-view package (e.g. `Parent +
+Instructor PWA`); add a ticket id in parens when there is one. Maintain a `handoffs/README.md`
+table indexing them:
+
+### 1. `AGENT.md` — the operating protocol
+- A **per-screen build loop**, stated as the agent's required process:
+  `read this screen's checklist → study its reference PNG (light+dark) → implement with the
+  fixtures + token layer → render → screenshot → compare to the reference, list diffs, fix,
+  repeat until it matches → tick every checklist box → commit → next screen.`
+- **Implementation order**, smallest blast radius first: tokens+theme → shared components →
+  screens one at a time → full pass.
+- **Rule:** may NOT declare a screen done while any checklist box is unticked or any visible
+  diff remains; unresolved blockers go in `NOTES.md`, never silently skipped.
+- **Stack rule:** use the codebase's existing patterns/components; if greenfield, pick one
+  stack and stay in it. Frontend look only unless told otherwise — wire to fixtures, not a backend.
+- A **definition of done** for the whole job + "no invented features / no widened data".
+
+### 2. `CHECKLIST.md` — binary acceptance contract
+- Open with a **"⛔ MUST NOT DROP"** block listing the edge cases agents skip. Enumerate them
+  explicitly for THIS design — e.g. null/empty states, error/cancelled/pending variants,
+  conditional affordances that must hide cleanly (no layout gap), locale pluralization,
+  config-driven 1..N UI that collapses at N=1, both themes, accessibility bar, tokens-only,
+  exact localized copy.
+- Then a per-screen section of tickable, testable lines. Unticked = not done.
+
+### 3. `fixtures.json` — exact mock data
+- The real sample data the screens render. Add `_note` keys on the records that carry edge
+  cases. State plainly: **"do not invent, rename, or widen fields."** Pin formats (money,
+  dates, etc.).
+
+### 4. `reference_screens/` — the 1:1 ground truth
+- A PNG **per screen AND per important state** (include dark mode, every status/variant, and
+  desktop if applicable). Plus an `INDEX.md` mapping `file → screen/state` and how to reach
+  interactive states in the standalone build. These images are what "looks 1:1" is measured against.
+- **Group by app/surface** when there's more than one app (e.g. `reference_screens/<App A>/`,
+  `reference_screens/<App B>/`).
+- **⚠ Capture full frames at true aspect ratio — never raw viewport screenshots.** A plain
+  screenshot crops to the preview viewport: tall scrolling screens get cut off at the bottom,
+  the aspect ratio is wrong, and there's dead margin/neighbor frames at the edges. That makes
+  the "ground truth" useless. Instead, capture each frame **in isolation** at its natural
+  device width (e.g. 390–412px phone) and its **full content height**:
+  - Render one frame alone on a plain background (clone it into a fixed overlay; strip box-shadow).
+  - If the frame is taller than the capture viewport, capture it in **vertical tiles**
+    (translateY by a stride slightly less than the captured height so tiles overlap) and
+    **stitch** them into one image with a canvas. Overlap avoids seams; the canvas height =
+    the frame's true height.
+  - Calibrate the css→pixel scale once (drop a known-size marker rect, measure it) so crops
+    are exact; then crop each tile to the frame's width and stitch.
+  - Desktop frames wider than the viewport: scale down to fit width (single tile), keep ratio.
+  - **Always eyeball the bottom of each tall frame** to confirm the last element (bottom nav,
+    final list row, footer) is present — that's the part naive captures silently drop.
+  - Keep intermediate tiles in a temp folder and delete it when done; ship only the stitched PNGs.
+
+### 5. `README.md` — the full spec (self-sufficient)
+- Tokens (with values), per-screen layout/components/copy, interactions & state, data shapes,
+  glossary, constraints, and a list of **open decisions** the implementer must resolve
+  (anything you had to guess, new token candidates awaiting approval, integration choices).
+
+**Then:** copy the design file(s) into the folder, and **always do both of these together**:
+1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
+   is created OR re-generated, so the user never has to scroll back through the thread to find the
+   latest copy. Re-presenting is cheap; a stale/lost download is not.
+2. **Register it on the Index page.** Add a `handoff:{ dir, date }` field to that view's entry in
+   `Index.dc.html` so the view's card shows a "📦 Handoff · <date> ↗" chip linking to the handoff
+   folder's README. Update the `date` whenever the handoff is regenerated. This is how the user
+   answers "do I have a recent handoff, and where is it?" without digging.
+
+> Note: a link inside the Index (an HTML page) can *open* the handoff README, but it cannot trigger
+> the chat download card — only the assistant can. That's why step 1 (re-present in chat) is
+> mandatory alongside step 2 (link in Index), not a substitute for it.
+
+### How the user runs the resulting package
+Point the agent at the folder with one instruction:
+> "Read `AGENT.md` and follow it exactly. Implement the frontend 1:1 against
+> `reference_screens/` using `fixtures.json`. Do not stop until every `CHECKLIST.md` box
+> passes; log anything you can't resolve in `NOTES.md`."
+
+Resolve open token/spec decisions before the agent starts.
