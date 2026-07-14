@@ -32,6 +32,10 @@ your implementation.
 ## 1. Non-negotiables
 - **1:1 with `reference_screens/`** (grouped per app/surface) for *visual fidelity* — match
   layout, spacing, color, copy, both themes. When unsure, open the standalone HTML and look.
+  **"1:1" means visual fidelity ONLY — it is NOT a licence to copy the prototype's DOM,
+  inline styles, device frame, or dual-theme scaffolding.** Reproduce what the screen *looks
+  like* using the real app's shell, components, and tokens; never transcribe the prototype's
+  markup. Verbatim structural copy is the drift this protocol exists to prevent.
 - **Use the design tokens, never raw colors.** <where tokens come from>
 - **All UI copy in <locale>**, exactly as in the reference.
 - **Use the codebase's existing patterns/components.** If greenfield, pick one stack, stay in it.
@@ -41,7 +45,22 @@ your implementation.
   use a **real app icon/component** — never an improvised or missing asset. If unspecified, use
   the app's standard and note it; don't invent a broken one.
 
-## 2. The build loop (per screen, in order)
+## 2. Enumerate before building (the completeness contract)
+Before writing any screen, produce `INVENTORY.md`: a countable checklist of every
+**screen × state × affordance** the delivery must contain, mined from `CHECKLIST.md`
+(incl. MUST-NOT-DROP) and *every* `reference_screens/` PNG — not just the happy-path
+screens. Enumerate the states explicitly: empty, loading, error, validation, success,
+disabled, and each interactive affordance (show/hide, clear, expand, select, toggle).
+"Done" is measured against this inventory, **not** against a visual glance — a screen that
+renders but omits its error / empty / validation states is **not** done. Those omitted
+states are exactly where behavior gets silently dropped. Keep the inventory ticked in
+lockstep with the build loop.
+
+> _Origin anecdote: the first uninstructed redesign attempt (HTML in, "let's redesign"
+> out, no brief) silently dropped ~30% of the functionality. This contract exists so that
+> can't recur — the number is the baseline it prevents, not a rate to expect under it._
+
+## 3. The build loop (per screen, in order)
 ```
 for each screen in IMPLEMENTATION ORDER:
   1. Read this screen's CHECKLIST.md section.
@@ -56,20 +75,31 @@ for each screen in IMPLEMENTATION ORDER:
 May not declare a screen done with any box unticked or any visible diff. Unresolvable →
 `NOTES.md`, never silently skipped.
 
-## 2. Implementation order (smallest blast radius first)
+## 4. Implementation order (smallest blast radius first)
 1. Tokens + theme switch (verify a swatch page in both themes)
 2. Shared components
 3. …screens, one per task…  <list them>
 4. Full pass — run the whole CHECKLIST end to end in both themes.
+5. **Adversarial completeness pass** — a reviewer that did NOT build the screens audits the
+   delivery against `INVENTORY.md` + every reference PNG, asking only *"what is missing?"*
+   (unbuilt state, dropped affordance, unmatched reference, unticked box). Its findings are
+   the next build round. The builder never signs off its own coverage — self-review is where
+   dropped behavior hides.
 
-## 3. Reference index
+## 5. Reference index
 See `reference_screens/INDEX.md` for file → screen/state mapping and how to reach interactive states.
 
-## 4. Data rules
+## 6. Data rules
 Consume `fixtures.json` exactly. Do not invent, rename, or widen fields. Honor `_note` keys.
 Pin formats (<money/date formats>).
 
-## 5. Definition of done
+The mock's **field shape is a contract**: name and structure each value the way the real
+backend will emit it, because "swap the data source only" holds *only* if the shape matches.
+Where the eventual shape is uncertain, record the assumed shape per screen in `NOTES.md` as a
+requirement the later backend task must honor — never silently pick a convenient shape that
+the template would then have to be re-plumbed away from.
+
+## 7. Definition of done
 - [ ] Every screen implemented **at its real route, in the real app shell, with real components**,
       and committed. No preview/gallery/bezel page anywhere.
 - [ ] Going live = **swap the data source only** — no re-layout needed (mock data sits at the real
@@ -78,6 +108,9 @@ Pin formats (<money/date formats>).
       repositories, endpoints, services, DTOs, or schema. Backend is a separate task; unmet needs
       are stubbed + noted in NOTES.md, not implemented.
 - [ ] Every CHECKLIST box ticked (or blockers logged in NOTES.md).
+- [ ] `INVENTORY.md` fully ticked, and an **adversarial completeness pass** (by a non-builder)
+      found nothing missing vs the inventory + reference PNGs.
+- [ ] Mock field shapes recorded in NOTES.md as the seam contract for the backend task.
 - [ ] Light + dark verified; accessibility bar met; min touch target met.
 - [ ] Tokens only; all copy in <locale>; no invented features; no widened data.
 - [ ] No improvised/broken icons or assets — every affordance uses a real app component.
