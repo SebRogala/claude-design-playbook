@@ -53,6 +53,31 @@ start mocking on an incomplete brief:
 - Keep the design in as few files as sensible; add screens/variations to the existing artifact
   rather than forking into many files. Present options clearly labelled on a neutral canvas.
 
+## Surface & field-control patterns (which container a view lives in)
+Decide a view's **surface** by the weight and linkability of the task — not by habit. Getting this
+right is what keeps a growing product feeling like one product.
+- **Modal** — one focused task, ≈one screen of fields (≤ ~8 inputs, no tabbed sub-sections),
+  launched in-context from a row/detail, no deep-link need, no nested nav. (create/edit a record,
+  send, confirm, register a value.)
+- **Drawer** — same profile, but the underlying list/detail should stay visible (quick peek + edit,
+  repeated edits across rows), or the form is slightly longer than a modal holds.
+- **Full page / route** — multi-step wizard, deep-linkable/bookmarkable/shareable views, dashboards
+  and heavy tables, or anything that spawns its own sub-navigation.
+- **Anti-pattern to fix on contact:** a short create/edit form shipped as its own route with a
+  "← back" link — that's a modal wearing a page.
+
+Field controls:
+- **2–6 short mutually-exclusive options → visible selector** (segmented control or tile row), not a
+  dropdown: no wasted click, and the choice can drive dependent fields live. Real `<select>` only
+  past ~7 options or long labels.
+- **Dependent fields react immediately** to the selection — hide what doesn't apply rather than
+  leaving it ambiguously enabled.
+
+Rollout: apply these **when you touch a view** (strangler pattern) — never a big-bang sweep of the
+whole product. Writing the rule down stops new drift; the back-catalogue catches up as views are
+worked on. Record per-project surface decisions and any offenders-to-convert in `PROJECT.md`, and
+keep a portable copy of the rule the app repo can adopt.
+
 ## Naming & the view Index (keep the product navigable)
 - **Name every view by its full breadcrumb path**, not a bare word: `Area → Section → … → View`
   (e.g. `Admin CRM → Harmonogram → Wydarzenie → Utwórz jednorazowe`). Put that path on the frame

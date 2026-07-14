@@ -63,7 +63,7 @@ handoff machinery out of context.
 
 **Handoff** (on request only): when the user explicitly asks to hand off to a coding agent,
 **then** read `HANDOFF.md` and copy the `templates/` skeletons in. It produces a
-`design_handoff_<feature>/` package (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`,
+`handoffs/<breadcrumb path>/` package (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`,
 `reference_screens/`, `README.md`) that an agent can implement 1:1, frontend-only, unattended.
 
 ---

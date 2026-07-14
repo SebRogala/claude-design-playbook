@@ -35,7 +35,7 @@
   with its breadcrumb path, status, and a link to its file/frame. Keep it updated as views land.
 - **View files:** _one `.dc.html` per real view name (e.g. `Attendance.dc.html`)._
 - **Standalone export:** _<Name> (standalone).html_
-- **Handoff (when built):** _design_handoff_<feature>/_
+- **Handoff (when built):** _handoffs/<breadcrumb path>/ (single view) or handoffs/<surface(s) covered>/ (multi-view); add ticket id in parens_
 
 ## Decisions log (append-only — date + decision + why)
 - _YYYY-MM-DD — decision — rationale / who asked._
