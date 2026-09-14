@@ -5,12 +5,12 @@
 > can pick up cold. CLAUDE.md points at the shared playbook; THIS file holds project truth.
 
 ## What we're designing
-- **Surface(s):** _which app/area (e.g. Cresco admin CRM — Students, Groups, Schedule)._
+- **Surface(s):** _which app/area (e.g. Admin CRM — Students, Groups, Schedule)._
 - **Audience & goal:** _who uses it, what it must achieve._
 - **Platforms / themes / locale:** _desktop/mobile; light/dark; language._
 
 ## Design context (source of truth)
-- **Design system / tokens:** _repo + path (e.g. SebRogala/Cresco → assets/styles/app.css)._
+- **Design system / tokens:** _repo + path (e.g. <org>/<design-system-repo> → path/to/tokens.css)._
 - **Component vocabulary:** _where components live; which ones to reuse._
 - **Reference material:** _screenshots, existing screens, briefs attached to the project._
 - **Rule:** use the token/component layer; never raw hex. Flag any new token candidate.
@@ -31,11 +31,12 @@
 > path as the frame's `data-screen-label` and in the Index.
 
 ## File map
-- **Index (the map of all views):** _`Index.dc.html`_ — a Figma-like gallery: one card per view
-  with its breadcrumb path, status, and a link to its file/frame. Keep it updated as views land.
+- **Index (the map of all views):** _`Index.dc.html`_ — one card per view with its breadcrumb
+  path, status, and a link to its file/frame. Start from the playbook's `templates/Index.dc.html`
+  and edit its `VIEWS` array; keep it updated as views land.
 - **View files:** _one `.dc.html` per real view name (e.g. `Attendance.dc.html`)._
 - **Standalone export:** _<Name> (standalone).html_
-- **Handoff (when built):** _handoffs/<breadcrumb path>/ (single view) or handoffs/<surface(s) covered>/ (multi-view); add ticket id in parens_
+- **Handoff (when built):** _handoffs/<slug>/ — slug of the view's breadcrumb (single view) or of the surface(s) covered (multi-view), ticket id prefixed; rule in HANDOFF.md_
 
 ## Decisions log (append-only — date + decision + why)
 - _YYYY-MM-DD — decision — rationale / who asked._

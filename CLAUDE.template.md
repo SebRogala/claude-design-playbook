@@ -1,10 +1,10 @@
 # CLAUDE.md — drop this in a new project's root and fill in the specifics
 
 > This is a POINTER file. It keeps context light: full handoff instructions live in the
-> ClaudeDesign repo and are read **only when a handoff is requested**, not during design.
+> playbook repo and are read **only when a handoff is requested**, not during design.
 
 ## Playbook source
-Central repo: **github.com/<YOU>/ClaudeDesign** (read fresh; don't rely on memory).
+Central repo: **github.com/<YOU>/claude-design-playbook** (read fresh; don't rely on memory).
 - When I **paste a task** → triage it first per `PRODUCE.md` ("When handed a task"): check it
   against `INTAKE.md`, read the connected repo yourself for anything readable (tokens, components,
   existing patterns), ask me only for what you genuinely can't obtain, and discuss the key design

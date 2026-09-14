@@ -84,20 +84,16 @@ keep a portable copy of the rule the app repo can adopt.
   as `data-screen-label`, use it in the file's heading, and as the view's id everywhere. Single
   names ("Attendance", "Event") collide and get lost as the product grows.
 - **Maintain an Index page** — a project map: `Index.dc.html`, one card per view, the entry point
-  a new session or teammate opens first. Create it once there are ≥2 views; **update it whenever a
-  view is added or renamed**, and keep it in sync with PROJECT.md's screen inventory. Proven pattern:
+  a new session or teammate opens first. Start from `templates/Index.dc.html` (data-driven: edit its
+  `VIEWS` array — one entry per view with path, status, file, note, handoff; the layout is the
+  template's job). Create it once there are ≥2 views; **update it whenever a view is added or
+  renamed**, and keep it in sync with PROJECT.md's screen inventory. Why it looks the way it does:
   - **Text-forward cards, no preview thumbnails.** Real screenshots go stale and add capture cost;
-    hand-drawn wireframe minis add clutter without value. A card is: **bold view name first** (fixed
-    position, so the eye lands in the same spot every row), the remaining mid-path as a muted
-    subtitle, an optional one-line note, a status pill (done / in-progress / todo), and an
-    "Open →" link to the file. A left accent bar carries the area color (greyed for todo).
-  - **Hierarchy: Area ▸ Module ▸ views.** Group by the breadcrumb. The **area** (surface —
-    Admin CRM / Parent PWA / …) is a section header with a divider; within it, group views by their
-    **first path segment** into **module** sub-headers (Harmonogram, Uczniowie, Finanse…) each with a
-    count. Auto-adapt: single-segment views render flat (no empty module row). This is what keeps a
-    50+-view product navigable instead of one flat wall.
-  - Cards don't repeat the area/module names the headers already carry; a top strip shows total +
-    per-status counts.
+    hand-drawn wireframe minis add clutter without value. The bold view name sits first, at a fixed
+    position, so the eye lands in the same spot every row.
+  - **Hierarchy: Area ▸ Module ▸ views**, derived from the breadcrumb (area = first segment, module
+    = second; two-segment paths render flat). This is what keeps a 50+-view product navigable
+    instead of one flat wall.
 
 ## Delivering a production milestone
 - Show the artifact early, iterate, and verify it renders cleanly.
@@ -105,5 +101,5 @@ keep a portable copy of the rule the app repo can adopt.
 - Keep summaries short: what changed, caveats, next steps. Flag scope-reversals explicitly.
 
 ## When the user asks to hand off
-Switch modes: NOW read `HANDOFF.md` (+ `templates/`) from the ClaudeDesign repo and follow it.
+Switch modes: NOW read `HANDOFF.md` (+ `templates/`) from the playbook repo and follow it.
 That's when the checklist / fixtures / reference-screens machinery comes in — not before.

@@ -45,6 +45,11 @@ your implementation.
   use a **real app icon/component** — never an improvised or missing asset. If unspecified, use
   the app's standard and note it; don't invent a broken one.
 
+> _Origin anecdote (the second flip): told to implement "1:1", an agent shipped the real PWA route
+> with the prototype's two theme chromes side by side inside it — the design canvas transcribed into
+> production. First flip: a preview instead of the app. Second flip: the app wearing the preview.
+> §0 and the first rule above exist so neither recurs._
+
 ## 2. Enumerate before building (the completeness contract)
 Before writing any screen, produce `INVENTORY.md`: a countable checklist of every
 **screen × state × affordance** the delivery must contain, mined from `CHECKLIST.md`

@@ -1,11 +1,15 @@
 # INTAKE.md — how to brief ClaudeDesign (the UI-task input contract)
 
+> **Normative.** The access constraints, the required fields, and the task template below are
+> defined here and nowhere else. `skills/prepare-ui-task/` reads this file at run time; `PRODUCE.md`
+> triages incoming tasks against it. Change the contract here.
+
 ## Who ClaudeDesign is
 A design partner that turns a product spec into high-fidelity, **token-accurate HTML mockups**
 (light/dark, real states, correct locale copy), then — on request — into a **1:1 agent-ready
-implementation handoff** (`handoffs/<breadcrumb path>/`). It works from *context + spec + design-
-system tokens*; it does not guess. Give it those three and it designs the view directly (no
-coding-agent round-trip needed first).
+implementation handoff** (`handoffs/<slug>/`). It works from *context + spec + design-system
+tokens*; it does not guess. Give it those three and it designs the view directly (no coding-agent
+round-trip needed first).
 
 ## The loop
 ```
@@ -19,15 +23,15 @@ YouTrack ticket ──paste──▶ ClaudeDesign ──designs──▶ mockups
 ## What ClaudeDesign can and can't access (affects what a task must include)
 - **GitHub — read only.** If the design-system repo is connected, ClaudeDesign reads tokens,
   components, and source **directly from GitHub** — so a task can just *point* at the repo/path
-  (e.g. `SebRogala/Cresco → assets/styles/app.css`) instead of pasting token values. It cannot
-  **commit or push** — you commit its returned files and attach the handoff to the ticket.
+  (e.g. `<org>/<design-system-repo> → path/to/tokens.css`) instead of pasting token values. It
+  cannot **commit or push** — you commit its returned files and attach the handoff to the ticket.
 - **Private trackers (YouTrack/Jira) — no access.** ClaudeDesign cannot reach them. The **spec
   must be pasted as text** (this is the one field that always comes verbatim in the ticket body).
 - **Screenshots/images — yes**, if attached to the message (needed for redesigns).
 
 ## What a good UI design task MUST contain
-Claude Code should assemble a ticket with these fields before handing it to ClaudeDesign. Missing
-fields = ClaudeDesign will ask, so fill them up front.
+Assemble a task with these fields before handing it to ClaudeDesign. Missing fields = ClaudeDesign
+will ask, so fill them up front.
 
 1. **Surface & audience** — which app/area (admin CRM / parent PWA / instructor PWA / …), who
    uses it, platform (desktop/mobile), themes (light/dark/both), locale (e.g. Polish).
@@ -42,7 +46,7 @@ fields = ClaudeDesign will ask, so fill them up front.
    text; do not paraphrase away the edge cases — they're what makes the design correct.
    **This is the field ClaudeDesign can't fetch itself — always paste it.**
 4. **Design-system source** — where tokens/components live (repo + path, e.g.
-   `SebRogala/Cresco → assets/styles/app.css`, components in `templates/components/`). ClaudeDesign
+   `<org>/<design-system-repo> → path/to/tokens.css`, components in `<path>`). ClaudeDesign
    **reads these from GitHub directly** if the repo is connected — a path is enough, no need to
    paste values. Rule: token/component layer only, never raw hex.
 5. **Interactions & data** — expected behaviors (optimistic save, bulk actions, redirects…),
@@ -52,45 +56,46 @@ fields = ClaudeDesign will ask, so fill them up front.
 7. **Deliverable expectations** — fidelity (hi-fi), how many **variations/options** to explore
    and along which axis, dark/light, and **whether a handoff package is wanted** (and for which
    coding stack, e.g. Twig + Stimulus).
-   - **When a handoff IS wanted, its implementation deliverable is the REAL app, data mocked** —
-     the view at its real route, in the real app shell, using real app components, differing from
-     production only in that mock data sits at the real controller→template seam (going live =
-     swap the source). NOT a preview page, device-bezel mockup, or in-app light/dark side-by-side
-     — those are the design prototype, not the implementation. (Enforced by `AGENT.md` §0.)
-     **Boundary: this builds only up to the controller→template seam (mock fixture there) — never
-     the backend behind it (entities, migrations, repos, endpoints, services, schema). Backend
-     wiring is a separate task, not part of the design-handoff implementation.**
+   - **When a handoff IS wanted, its implementation is the real app with mocked data** — the view
+     at its real route, in the real shell, with real components; the only difference from
+     production is a fixture at the controller→template seam, and nothing is built behind that
+     seam. The deliverable-shape rule is `templates/AGENT.md` §0 (normative).
 
-## Ready-to-fill YouTrack task template
-Paste this into the ticket description and fill the blanks:
+## Task template
+The one block to fill — paste it into ClaudeDesign, and into the ticket so the coding agent later
+implements from the same text. `prepare-ui-task` emits it filled.
 
 ```md
-### UI design task — <view name>
+# UI design task: <breadcrumb path>
 
-**Surface / audience:** <app/area> · <who uses it> · <desktop|mobile> · <light|dark|both> · <locale>
-**View(s):** <breadcrumb path — e.g. Admin CRM → Harmonogram → Wydarzenie → Utwórz jednorazowe> · <purpose>   (redesign? <yes/no — attach screenshot>)
+**Surface / audience:** …
+**Platform / themes / locale:** …
+**View(s):** <breadcrumb path> · <purpose>   (redesign? <yes/no — screenshot attached>)
 
-**Spec (verbatim — do not paraphrase edge cases):**
-<paste the domain model: entities, status enum, defaults/derived states, edge cases, state machine>
+## Spec (verbatim from <TICKET-ID>)
+<pasted ticket text — entities, enums, defaults/derived, edge cases, state machine>
 
-**Design system:** <repo + path to tokens>; components: <path>. Tokens only, no raw hex.
+## Design system
+<repo → path for tokens + components>   (tokens/components only, no raw hex)
 
-**Interactions / API:** <behaviors: optimistic save, bulk, cancelled read-only, …>
-<endpoints the UI calls: METHOD path — what it does>
+## Interactions / API
+<endpoints, optimistic behavior, auth/scoping — if any>
 
-**Constraints:** <a11y> · <min touch target> · <framing> · out-of-scope: <…>
+## Constraints
+<a11y, ≥44px touch, PWA framing, out-of-scope>
 
-**Deliverable:** hi-fi mockup · variations: <N, axis> · <light/dark> · handoff wanted: <yes/no — stack>
+## Deliverable
+Fidelity: hi-fi. Variations: <N, on which axis>. Themes: <…>. Handoff wanted: <yes/no — stack>.
+
+## Open questions (flag, don't invent)
+<anything the spec omits but the UI needs>
 ```
 
-## Claude Code skill wiring ("prepare UI task")
-Give Claude Code an instruction like:
-> **When I say "prepare UI task": ** produce a YouTrack ticket description using the template in
-> `INTAKE.md`. Pull the domain spec from the linked YouTrack issue(s) verbatim (status enums,
-> defaults/derived states, edge cases — never drop them). Fill the design-system path from the
-> project's known tokens repo. Leave a screenshot slot if it's a redesign. Output the filled
-> template so I can paste it to ClaudeDesign. After ClaudeDesign returns a
-> `handoffs/<breadcrumb path>/` package, attach it to the same ticket for implementation.
+## Claude Code skill
+`skills/prepare-ui-task/` assembles this task from a tracker ticket. Install it into the app
+project (`.claude/skills/prepare-ui-task` — a symlink into a clone of this repo keeps it current),
+then say **"prepare UI task"**. It reads this file for the contract; see its `SKILL.md` for how it
+locates it.
 
 ## Why this shape
 ClaudeDesign's output quality tracks its input directly: the sharpest results this project has

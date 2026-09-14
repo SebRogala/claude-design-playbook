@@ -1,7 +1,11 @@
-# ClaudeDesign
+# claude-design-playbook
 
 Central playbook for design work with Claude. One source of truth, pulled fresh each session,
 so nothing depends on remembering which local file was which.
+
+> **Naming.** "ClaudeDesign" in these docs is the *design-partner role* — a Claude project running
+> this playbook on Claude Design canvases (`.dc.html`). It is not an Anthropic product, and this
+> repo is not affiliated with Anthropic.
 
 The core idea: **keep two things separate.**
 - **Producing** a design (the everyday work) — light context.
@@ -14,12 +18,13 @@ And give every project **its own persistent brain** so work survives across sess
 ## Repo contents
 | File | Role | When it's read |
 |---|---|---|
-| `INTAKE.md` | How to **brief** ClaudeDesign + the UI-task template (for Claude Code's "prepare UI task") | Writing a task |
+| `INTAKE.md` | How to **brief** ClaudeDesign — the UI-task input contract + template (normative) | Writing a task |
+| `skills/prepare-ui-task/` | Claude Code skill that assembles that task from a tracker ticket | Writing a task |
 | `CLAUDE.template.md` | Per-project **pointer** → drop in as `CLAUDE.md` | Auto-loaded every session |
 | `PROJECT.template.md` | Per-project **living brain** → drop in as `PROJECT.md` | Read/updated every session |
 | `PRODUCE.md` | Design-production conventions | While designing |
 | `HANDOFF.md` | Full 1:1 agent-handoff playbook | **Only** when a handoff is requested |
-| `templates/` | Blank handoff skeletons (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`, `reference_screens/INDEX.md`) | Copied in at handoff time |
+| `templates/` | Blank skeletons: handoff (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`, `reference_screens/INDEX.md`) + the project map (`Index.dc.html`) | Handoff time; `Index.dc.html` once there are ≥2 views |
 
 ---
 
@@ -63,7 +68,7 @@ handoff machinery out of context.
 
 **Handoff** (on request only): when the user explicitly asks to hand off to a coding agent,
 **then** read `HANDOFF.md` and copy the `templates/` skeletons in. It produces a
-`handoffs/<breadcrumb path>/` package (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`,
+`handoffs/<slug>/` package (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`,
 `reference_screens/`, `README.md`) that an agent can implement 1:1, frontend-only, unattended.
 
 ---
@@ -76,3 +81,6 @@ repo but **cannot commit** to it.
 ## Updating the playbook
 When we improve a file, the assistant edits it in the working project and hands it back — **you
 commit it here.** Next session, every project picks up the change automatically.
+
+## License
+MIT — see `LICENSE`.

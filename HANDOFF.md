@@ -3,25 +3,25 @@
 > Read this when the user asks to hand off to a coding agent — not during design. Blank
 > skeletons for each artifact are in `templates/`; copy them in and fill them out.
 
-**Goal:** a package a coding agent can implement faithfully and unattended, producing **the real,
-shipped application with data mocked** — not a preview. The deliverable is the final product at its
-real route, in the real app shell, using real app components, indistinguishable from production
-except that mock data sits at the real controller→template seam (so going live = swap the source
-only). The reference PNGs define *visual fidelity*; they are not the delivery format. **Scope stops
-at the controller→template seam: the mock is a fixture placed at that boundary — the agent builds
-NO backend (no entities, migrations, repositories, endpoints, services, DTOs, schema, or wiring);
-backend architecture is a separate task.** Anti-patterns the agent must avoid: preview/gallery pages, device-bezel mockups, in-app light+dark side-by-side,
-bespoke re-styling where a real component exists. Prose specs get satisficed — agents build the
-happy path, invent simpler data, drop buried edge cases, and ship previews instead of the real
-view. What prevents that: a **checkable contract + ground-truth images + a forced self-verify loop
-+ small scoped per-screen tasks + an explicit deliverable-shape rule (`AGENT.md` §0).**
+**Goal:** a package a coding agent can implement faithfully and unattended. What it must produce —
+the real app at its real route, mock data at the controller→template seam, nothing built behind the
+seam, no preview/bezel/side-by-side pages — is defined **once, in `templates/AGENT.md` §0**
+(normative); this file is about producing the package that enforces it. Prose specs get satisficed —
+agents build the happy path, invent simpler data, drop buried edge cases, and ship previews instead
+of the real view. What prevents that: a **checkable contract + ground-truth images + a forced
+self-verify loop + small scoped per-screen tasks + an explicit deliverable-shape rule (`AGENT.md` §0).**
 
-Produce ALL of the following in `handoffs/<name>/` — keep every handoff under a single top-level
-`handoffs/` folder (so they don't clutter the project root), one subfolder per handoff. Name
-`<name>` by the view's Index breadcrumb path for a single view (e.g. `Admin CRM → Harmonogram →
-Wydarzenie → Obecność`), or by the surface(s) covered for a multi-view package (e.g. `Parent +
-Instructor PWA`); add a ticket id in parens when there is one. Maintain a `handoffs/README.md`
-table indexing them:
+Produce ALL of the following in `handoffs/<slug>/` — keep every handoff under a single top-level
+`handoffs/` folder (so they don't clutter the project root), one subfolder per handoff.
+
+**Directory slug — filesystem-safe, derived from the breadcrumb:** lowercase, ASCII only (strip
+diacritics), spaces → `-`, path segments joined by `--`, ticket id prefixed when there is one.
+`Admin CRM → Harmonogram → Wydarzenie → Obecność` + `CRE-42` →
+`handoffs/cre-42--admin-crm--harmonogram--wydarzenie--obecnosc/`. A multi-view package slugs the
+surface(s) covered instead (`handoffs/parent-pwa--instructor-pwa/`). The human-readable breadcrumb
+(with `→` and diacritics) goes in the package `README.md` heading and in the `handoffs/README.md`
+index table — never in the directory name (arrows, spaces, parens and diacritics break shells,
+URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 
 ### 1. `AGENT.md` — the operating protocol
 - A **per-screen build loop**, stated as the agent's required process:
@@ -81,10 +81,11 @@ table indexing them:
 1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
    is created OR re-generated, so the user never has to scroll back through the thread to find the
    latest copy. Re-presenting is cheap; a stale/lost download is not.
-2. **Register it on the Index page.** Add a `handoff:{ dir, date }` field to that view's entry in
-   `Index.dc.html` so the view's card shows a "📦 Handoff · <date> ↗" chip linking to the handoff
-   folder's README. Update the `date` whenever the handoff is regenerated. This is how the user
-   answers "do I have a recent handoff, and where is it?" without digging.
+2. **Register it on the Index page.** Set `handoff: { dir, date }` on that view's entry in the
+   `VIEWS` array of `Index.dc.html` (`dir` = the slug under `handoffs/`, `date` = today) so the
+   card shows a Handoff chip linking to the package README. Refresh `date` whenever the handoff is
+   regenerated. This is how the user answers "do I have a recent handoff, and where is it?" without
+   digging.
 
 > Note: a link inside the Index (an HTML page) can *open* the handoff README, but it cannot trigger
 > the chat download card — only the assistant can. That's why step 1 (re-present in chat) is

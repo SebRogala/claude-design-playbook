@@ -9,67 +9,30 @@ description: >-
 
 # Prepare UI task (for ClaudeDesign)
 
-Turn a raw ticket into a task ClaudeDesign can design from directly — no back-and-forth. The whole
-point: ClaudeDesign works from **context + spec + design-system tokens** and does not guess. Your
-job here is to make sure all three are present, then emit one clean, pasteable task block.
+Turn a raw ticket into a task ClaudeDesign can design from directly — no back-and-forth.
+ClaudeDesign works from **context + spec + design-system tokens** and does not guess; this skill
+makes sure all three arrive, then emits one clean, pasteable task block.
 
-## What ClaudeDesign can/can't access (drives what the task must carry)
-- **GitHub — read only.** If the design-system repo is connected, ClaudeDesign reads tokens,
-  components, and existing source patterns *directly*. So the task only needs to **point** at the
-  repo/path (e.g. `SebRogala/Cresco → assets/styles/app.css`), not paste values. It cannot commit/push.
-- **Private trackers — no access.** ClaudeDesign cannot open YouTrack/Jira. The **spec must be
-  pasted verbatim** — this is the one field it can never fetch itself.
-- **Images — only if attached.** For a redesign, attach a screenshot of the current screen.
+## The contract is `INTAKE.md` — read it first, every run
+`INTAKE.md` in the playbook repo is normative: what ClaudeDesign can and can't access, the seven
+required fields, and the task template this skill emits. Locate it, in order:
+1. `../../INTAKE.md` relative to this file (skill installed as a symlink into a clone of the playbook).
+2. `gh api repos/SebRogala/claude-design-playbook/contents/INTAKE.md --jq .content | base64 -d`
+   (works whether the repo is private or public, using the user's `gh` login).
+3. Neither reachable → say so and stop. Do not reconstruct the contract from memory.
 
-## Required fields (assemble all of these; ask the user only for what's genuinely missing)
-1. **Surface & audience** — which app/area, who uses it, platform (desktop/mobile), themes
-   (light/dark/both), locale.
-2. **View(s) — by full breadcrumb path** (`Area → Section → … → View`, e.g.
-   `Admin CRM → Harmonogram → Wydarzenie → Utwórz jednorazowe`), plus each view's purpose. Use the
-   path, not a bare name — it becomes the view's `data-screen-label` and Index entry. Redesign? say so + attach screenshot.
-3. **The spec, verbatim** — the domain model that governs the UI: entities, **status enums**,
-   **defaults & derived states** (e.g. "unmarked = ABSENT, never stored"), edge cases (null
-   instructor, cancelled, make-up, demo, offline…), any state machine. Copy the real ticket text;
-   do NOT paraphrase away edge cases — they are what make the design correct.
-4. **Design-system pointer** — repo + path for tokens/components (ClaudeDesign reads it from
-   GitHub). Rule: token/component layer only, never raw hex.
-5. **Interactions / API shapes** — endpoints, optimistic/rollback behavior, auth/scoping, if relevant.
-6. **Constraints** — accessibility bar, min touch target, PWA framing, out-of-scope items.
-7. **Deliverable expectations** — fidelity, how many variations + on which axis (flow / visuals /
-   interaction / copy), themes to show, and **whether an agent handoff is wanted** at the end.
-
-## Missing-field rule
-Fill what you can from the repo/README yourself. Ask the user only for what you truly can't obtain
-— above all the **verbatim spec**. If the spec omits a field the UI plausibly needs (e.g. no title
-on an entity that needs a human label), **flag it as an open question** in the task; never silently invent it.
-
-## Output — emit exactly this block for the user to paste into ClaudeDesign
-```
-# UI design task: <breadcrumb path>
-
-**Surface / audience:** …
-**Platform / themes / locale:** …
-**View(s):** <breadcrumb path> · <purpose>   (redesign? <yes/no — screenshot attached>)
-
-## Spec (verbatim from <TICKET-ID>)
-<pasted ticket text — entities, enums, defaults/derived, edge cases, state machine>
-
-## Design system
-<repo → path for tokens + components>   (tokens/components only, no raw hex)
-
-## Interactions / API
-<endpoints, optimistic behavior, auth/scoping — if any>
-
-## Constraints
-<a11y, ≥44px touch, PWA framing, out-of-scope>
-
-## Deliverable
-Fidelity: hi-fi. Variations: <N, on which axis>. Themes: <…>. Handoff wanted: <yes/no>.
-
-## Open questions (flag, don't invent)
-<anything the spec omits but the UI needs>
-```
+## Procedure
+1. **Read `INTAKE.md`** (above).
+2. **Fill every field you can yourself** from the ticket, the repo, and its README. Design-system
+   pointer = repo + path; ClaudeDesign reads GitHub, so point, don't paste values.
+3. **Pull the spec verbatim** from the linked ticket(s): entities, status enums, defaults/derived
+   states, edge cases, state machine. Never paraphrase edge cases away — this is the one field
+   ClaudeDesign cannot fetch itself.
+4. **Ask the user only for what you genuinely can't obtain.** If the spec omits a field the UI
+   plausibly needs, **flag it under "Open questions"** — never silently invent it.
+5. **Emit `INTAKE.md`'s task template, filled**, as one block the user pastes into ClaudeDesign
+   and into the ticket.
 
 ## After ClaudeDesign returns
-On request it produces a 1:1 handoff under `handoffs/<breadcrumb path>/`. Attach that folder to the
-**same ticket** so the coding agent implements from one self-contained source of truth.
+On request it produces a 1:1 handoff under `handoffs/<slug>/`. Attach that folder to the **same
+ticket** so the coding agent implements from one self-contained source of truth.
