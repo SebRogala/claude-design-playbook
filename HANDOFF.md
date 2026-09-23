@@ -87,11 +87,12 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 - **Tokens:** list them with values until they exist in the app codebase. Once an earlier package
   has put them there, point at the app's token file (the one `AGENT.md` §1 names) and list only the
   tokens this package introduces — never copy the full table; per-package copies drift.
-- **`## Spec changes vs <TICKET>`** — where the *final* design departs from the ticket, mined at
+- **`## Spec changes vs ticket`** — where the *final* design departs from the ticket, mined at
   handoff time (decisions churn while designing; only the final state counts). Get the *what* by
-  comparing the final design against the ticket's spec — fields, states, rules, copy, scope — since
-  the thread may not hold decisions from earlier sessions; then take the *why* from the design
-  thread and `PROJECT.md`'s decisions log, or write "why: not recorded" rather than invent one.
+  comparing the final design against the ticket spec as pasted in the intake brief — fields,
+  states, rules, copy, scope — since the thread may not hold decisions from earlier sessions; then
+  take the *why* from the design thread and `PROJECT.md`'s decisions log, or write "why: not
+  recorded" rather than invent one.
   One entry per change: *ticket said X → build Y*, why. `CHECKLIST.md`, `fixtures.json` and the
   reference PNGs must already show Y. With none, write **"None — the ticket is current."** so an
   empty section can't be mistaken for a missing one. These are *decided*, unlike open decisions;

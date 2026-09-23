@@ -23,4 +23,5 @@ Central repo: **github.com/<YOU>/claude-design-playbook** (read fresh; don't rel
 
 ## Working style
 Move fast; ask focused questions up front only when scope is genuinely ambiguous; flag
-scope-reversals explicitly; deliver downloadable self-contained HTML; keep summaries short.
+scope-reversals explicitly; deliver a downloadable standalone export
+(`<Name>-standalone.html`); keep summaries short.

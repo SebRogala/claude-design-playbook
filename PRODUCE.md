@@ -50,7 +50,8 @@ start mocking on an incomplete brief:
   once 2 screens exist; don't author a library speculatively. With an existing design system,
   use its tokens/components instead. Either way, apply the system consistently; introduce variety
   with intent, not noise.
-- Both light and dark if the product needs it. Respect accessibility (contrast, ≥44px touch).
+- Both light and dark if the product needs it. Respect accessibility (contrast, the project's
+  touch-target floor — ≥44px on touch devices).
 - Placeholders beat bad guesses — use labelled placeholders for missing assets/imagery.
 - No filler content or data slop. Every element earns its place. Ask before adding material.
 - Keep the design in as few files as sensible; add screens/variations to the existing artifact
