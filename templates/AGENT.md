@@ -3,7 +3,8 @@
 You are implementing <PROJECT> **as the real, shipped application** in the target codebase —
 **the final product, with data mocked as the only difference.**
 
-Read `README.md` first (full spec), then follow THIS protocol.
+Read `README.md` first (full spec), then **§0b below** (what in this package is *not* the product),
+then follow THIS protocol.
 
 ## 0. Deliverable shape (read this first — it defines "done")
 Ship the **final application**, indistinguishable from the shipped product except that data is
@@ -26,12 +27,42 @@ mocked. Concretely that means:
 
 **Anti-patterns (do NOT do these):** a preview/gallery page; a device-bezel/phone-frame mockup;
 light+dark shown side-by-side *in the app*; a standalone demo page instead of the real route;
-bespoke re-styling where a real app component exists. Those belong to the design prototype, not
-your implementation.
+bespoke re-styling where a real app component exists; a token/swatch panel, an option badge, or any
+other design-document scaffolding rendered as product (§0b). Those belong to the design prototype,
+not your implementation.
+
+## 0b. ⛔ What in this package is NOT the product
+The package mixes **the thing to build** with **the reasoning about it**. Build only the first.
+
+| File / element | Status |
+|---|---|
+| `<Screen>-prototype.<ext>` | **THE SCREEN.** The only file describing what to build. |
+| `reference_screens/` PNGs | **Visual ground truth.** Match these. Not a delivery format. |
+| `fixtures.json` | **Data contract.** Consume as-is. |
+| `CHECKLIST.md` | **Acceptance contract.** Every box is a requirement. |
+| `README.md` prose | **Spec + reasoning, mixed.** See the rule below. |
+| `README.md § Open decisions` | **Questions, not requirements.** Don't invent answers — where one blocks the build, stub it and log it in `NOTES.md`. |
+| `INVENTORY.md`, `NOTES.md` | **Your output**, not input. |
+| `<Screen>.<ext>` (full design document, if present) | **Provenance only.** Never build from it. |
+
+**The rule for prose:** anything phrased as a *reason* ("because…", "deliberate, for the older
+user", "tried and rejected", "would compete with…") explains **why** a requirement exists. Use it
+as context for your judgement where the spec is thin; never render it. Descriptions, imperatives
+and tables describe the product — reasons never do.
+
+**Specifically DO NOT build:**
+- Any token/swatch/spine panel. Color and type values are a **token layer**, not a page (the §4
+  step-1 swatch check is throwaway).
+- Any turn/option badge (e.g. `TURA 2`, `2A`, `1A`), version caption, or commentary about the
+  design direction. Those live only in the design document — if you see them anywhere, they are
+  scaffolding.
+- Any side-by-side comparison of variants. One design shipped; the alternatives were discarded.
+- Any "design notes" affordance in the UI.
 
 ## 1. Non-negotiables
 - **1:1 with `reference_screens/`** (grouped per app/surface) for *visual fidelity* — match
-  layout, spacing, color, copy, both themes. When unsure, open the standalone HTML and look.
+  layout, spacing, color, copy, both themes. When unsure, open `<Screen>-prototype.<ext>` and
+  look — never the full design document (§0b).
   **"1:1" means visual fidelity ONLY — it is NOT a licence to copy the prototype's DOM,
   inline styles, device frame, or dual-theme scaffolding.** Reproduce what the screen *looks
   like* using the real app's shell, components, and tokens; never transcribe the prototype's
@@ -81,7 +112,8 @@ May not declare a screen done with any box unticked or any visible diff. Unresol
 `NOTES.md`, never silently skipped.
 
 ## 4. Implementation order (smallest blast radius first)
-1. Tokens + theme switch (verify a swatch page in both themes)
+1. Tokens + theme switch (verify on a throwaway swatch page in both themes — delete it before
+   committing; it is not product, §0b)
 2. Shared components
 3. …screens, one per task…  <list them>
 4. Full pass — run the whole CHECKLIST end to end in both themes.
@@ -96,7 +128,8 @@ See `reference_screens/INDEX.md` for file → screen/state mapping and how to re
 
 ## 6. Data rules
 Consume `fixtures.json` exactly. Do not invent, rename, or widen fields. Honor `_note` keys.
-Pin formats (<money/date formats>).
+Pin formats (<money/date formats>). Label/status/category sets the real system reads from data
+come through the fixture too — never as constants in a template or component.
 
 The mock's **field shape is a contract**: name and structure each value the way the real
 backend will emit it, because "swap the data source only" holds *only* if the shape matches.

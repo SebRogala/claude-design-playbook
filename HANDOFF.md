@@ -52,9 +52,13 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 ### 4. `reference_screens/` — the 1:1 ground truth
 - A PNG **per screen AND per important state** (include dark mode, every status/variant, and
   desktop if applicable). Plus an `INDEX.md` mapping `file → screen/state` and how to reach
-  interactive states in the standalone build. These images are what "looks 1:1" is measured against.
+  interactive states in the stripped prototype (§6). These images are what "looks 1:1" is measured against.
 - **Group by app/surface** when there's more than one app (e.g. `reference_screens/<App A>/`,
   `reference_screens/<App B>/`).
+- **Recapture immediately before handing off.** Designs keep moving after capture; a set that is
+  a week old will disagree with the prototype on row counts, copy and chrome, and "1:1" then means
+  "1:1 with something that no longer exists". Note the capture date in `INDEX.md` and check it
+  against the design file's last change.
 - **⚠ Capture full frames at true aspect ratio — never raw viewport screenshots.** A plain
   screenshot crops to the preview viewport: tall scrolling screens get cut off at the bottom,
   the aspect ratio is wrong, and there's dead margin/neighbor frames at the edges. That makes
@@ -76,8 +80,31 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 - Tokens (with values), per-screen layout/components/copy, interactions & state, data shapes,
   glossary, constraints, and a list of **open decisions** the implementer must resolve
   (anything you had to guess, new token candidates awaiting approval, integration choices).
+- **Mark the open-decisions list as questions, not requirements** — "do not invent answers".
+  Unmarked, it reads like a spec section and gets satisficed like one.
+- Keep the *reasoning* behind non-obvious rules ("destructive actions are never one-click —
+  deliberate, for the older user"). An agent that knows why makes better calls where the spec is
+  thin. `templates/AGENT.md` §0b is what makes keeping it safe.
 
-**Then:** copy the design file(s) into the folder, and **always do both of these together**:
+### 6. The scope fence — ship a stripped prototype, not the design document
+The working design file accumulates things that are **reasoning, not product**: discarded options
+and variant comparisons, turn/option badges and captions, and a token/swatch panel. An agent told
+"implement 1:1" can reasonably build them.
+
+So, at handoff time:
+- **Produce `<Screen>-prototype.<ext>`** — the screen alone, scaffolding stripped: no option
+  badges, no variant sections, no token panel, no design commentary. **This is the build source.**
+  Name it with a hyphen, never brackets — brackets get stripped on save, and the docs then point at
+  a file that doesn't exist. It is not self-contained: ship its `support.js` beside it (fonts and
+  icons still load from the network).
+- Ship the full design document beside it only if provenance matters, labelled
+  **"provenance only — do not build from it"** in the package `README.md`.
+- `templates/AGENT.md` **§0b** carries the file-by-file classification (product / ground truth /
+  contract / reasoning / agent output) and the reading rule for prose. Keep §0b filled in per
+  package — it is the fence that makes a mixed-prose `README.md` safe.
+
+**Then:** copy the stripped prototype + its `support.js` (plus the full document, if shipped per §6)
+into the folder, and **always do both of these together**:
 1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
    is created OR re-generated, so the user never has to scroll back through the thread to find the
    latest copy. Re-presenting is cheap; a stale/lost download is not.

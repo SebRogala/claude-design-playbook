@@ -6,6 +6,7 @@ Group into one subfolder per app/surface.
 
 - **Phone screens:** <device width> px wide × natural height.
 - **Desktop screens:** <W × H>.
+- **Captured:** <YYYY-MM-DD> — recapture if the design file changed after this date.
 
 ## `<App A>/`
 | File | Screen / state | What to match |
@@ -19,5 +20,6 @@ Group into one subfolder per app/surface.
 | `01-<name>.png` | … | … |
 
 ## Inspecting beyond the PNGs
-Open `../<standalone>.html` in a browser for live, full-size screens and to reach interactive
-states (theme toggle, switchers, sheets, etc.).
+Open `../<Screen>-prototype.<ext>` in a browser for live, full-size screens and to reach interactive
+states (theme toggle, switchers, sheets, etc.). It needs `../support.js` beside it and network
+access for fonts/icons.

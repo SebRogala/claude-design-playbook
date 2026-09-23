@@ -35,7 +35,7 @@
   path, status, and a link to its file/frame. Start from the playbook's `templates/Index.dc.html`
   and edit its `VIEWS` array; keep it updated as views land.
 - **View files:** _one `.dc.html` per real view name (e.g. `Attendance.dc.html`)._
-- **Standalone export:** _<Name> (standalone).html_
+- **Standalone export:** _<Name>-standalone.html_
 - **Handoff (when built):** _handoffs/<slug>/ — slug of the view's breadcrumb (single view) or of the surface(s) covered (multi-view), ticket id prefixed; rule in HANDOFF.md_
 
 ## Decisions log (append-only — date + decision + why)
