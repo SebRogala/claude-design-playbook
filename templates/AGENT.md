@@ -43,6 +43,7 @@ The package mixes **the thing to build** with **the reasoning about it**. Build 
 | `fixtures.json` | **Data contract.** Consume as-is. |
 | `CHECKLIST.md` | **Acceptance contract.** Every box is a requirement. |
 | `README.md` prose | **Spec + reasoning, mixed.** See the rule below. |
+| `README.md § Spec changes vs ticket` | **Decided requirements that supersede the ticket.** Build Y, not X; write them back (below). |
 | `README.md § Open decisions` | **Questions, not requirements.** Don't invent answers — where one blocks the build, stub it and log it in `NOTES.md`. |
 | `INVENTORY.md`, `NOTES.md` | **Your output**, not input. |
 | `<Screen>.<ext>` (full design document, if present) | **Provenance only.** Never build from it. |
@@ -51,6 +52,12 @@ The package mixes **the thing to build** with **the reasoning about it**. Build 
 user", "tried and rejected", "would compete with…") explains **why** a requirement exists. Use it
 as context for your judgement where the spec is thin; never render it. Descriptions, imperatives
 and tables describe the product — reasons never do.
+
+**Ticket vs this package:** the ticket is the spec as written *before* design. Decisions made while
+designing are listed in `README.md § Spec changes vs ticket`, and they win. Before building, write
+each one back into the ticket; without tracker access, list them in `NOTES.md` under **Ticket
+updates needed** for a human. Any other conflict between the ticket and this package is
+unconfirmed: build what the package shows and flag it in `NOTES.md` under the same heading.
 
 **Specifically DO NOT build:**
 - Any token/swatch/spine panel. Color and type values are a **token layer**, not a page (the §4
@@ -154,4 +161,6 @@ the template would then have to be re-plumbed away from.
 - [ ] Every theme in scope verified; accessibility bar met; min touch target met.
 - [ ] Tokens only; all copy in <locale>; no invented features; no widened data.
 - [ ] No improvised/broken icons or assets — every affordance uses a real app component.
+- [ ] Every spec change written back into the ticket (or listed under **Ticket updates needed** in
+      NOTES.md), and every unlisted ticket↔package conflict flagged there.
 - [ ] NOTES.md summarizes decisions made + anything to flag to a human.

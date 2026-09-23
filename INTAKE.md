@@ -17,7 +17,8 @@ YouTrack ticket ──paste──▶ ClaudeDesign ──designs──▶ mockups
                                         └──on request──▶ handoff package
                                                           │
                             attach handoff to the SAME ticket ──▶ coding agent implements
-                                                                  (from ticket + handoff, 1:1)
+                                                                  (from ticket + handoff, 1:1;
+                                                                   handoff's spec changes win)
 ```
 
 ## What ClaudeDesign can and can't access (affects what a task must include)
@@ -102,4 +103,5 @@ ClaudeDesign's output quality tracks its input directly: the sharpest results th
 produced came from pasting the real ticket (data model + edge cases pinned). The intake template
 guarantees those arrive every time. Tokens/components it can read from GitHub itself — so the
 **one thing that must always be pasted is the tracker spec**. Attaching the handoff back to the
-ticket means the coding agent implements from one self-contained source of truth.
+ticket means the coding agent implements from one self-contained source of truth — once the
+handoff's spec changes (decided during design, `HANDOFF.md` §5) are written back into it.
