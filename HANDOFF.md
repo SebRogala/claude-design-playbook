@@ -93,7 +93,8 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   states, rules, copy, scope — since the thread may not hold decisions from earlier sessions; then
   take the *why* from the design thread and `PROJECT.md`'s decisions log, or write "why: not
   recorded" rather than invent one.
-  One entry per change: *ticket said X → build Y*, why. `CHECKLIST.md`, `fixtures.json` and the
+  First line under the heading: the source compared against — ticket id + intake brief path — so
+  the agent can check it. Then one entry per change: *ticket said X → build Y*, why. `CHECKLIST.md`, `fixtures.json` and the
   reference PNGs must already show Y. With none, write **"None — the ticket is current."** so an
   empty section can't be mistaken for a missing one. These are *decided*, unlike open decisions;
   `templates/AGENT.md` §0b says how the agent uses them.
