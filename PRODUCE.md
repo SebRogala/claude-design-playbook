@@ -45,8 +45,11 @@ start mocking on an incomplete brief:
   align them; two surfaces that disagree on the data model aren't one product.
 
 ## While building
-- Establish a small system (type pairing, 1–2 background tones, spacing/radius scale) and apply
-  it consistently. Introduce variety with intent, not noise.
+- **Greenfield:** commit a **token spine** (type, neutrals, 1–2 accents, spacing/radius/density)
+  *with* the first screen — pick the densest one, it sets the scale. Extract shared components
+  once 2 screens exist; don't author a library speculatively. With an existing design system,
+  use its tokens/components instead. Either way, apply the system consistently; introduce variety
+  with intent, not noise.
 - Both light and dark if the product needs it. Respect accessibility (contrast, ≥44px touch).
 - Placeholders beat bad guesses — use labelled placeholders for missing assets/imagery.
 - No filler content or data slop. Every element earns its place. Ask before adding material.
@@ -86,7 +89,8 @@ keep a portable copy of the rule the app repo can adopt.
 - **Maintain an Index page** — a project map: `Index.dc.html`, one card per view, the entry point
   a new session or teammate opens first. Start from `templates/Index.dc.html` (data-driven: edit its
   `VIEWS` array — one entry per view with path, status, file, note, handoff; the layout is the
-  template's job). Create it once there are ≥2 views; **update it whenever a view is added or
+  template's job). Create it once there are ≥2 views, carrying every existing handoff over from
+  `handoffs/README.md` as `handoff: { dir, date }`; **update it whenever a view is added or
   renamed**, and keep it in sync with PROJECT.md's screen inventory. Why it looks the way it does:
   - **Text-forward cards, no preview thumbnails.** Real screenshots go stale and add capture cost;
     hand-drawn wireframe minis add clutter without value. The bold view name sits first, at a fixed
@@ -97,7 +101,8 @@ keep a portable copy of the rule the app repo can adopt.
 
 ## Delivering a production milestone
 - Show the artifact early, iterate, and verify it renders cleanly.
-- Offer a downloadable self-contained HTML version.
+- Offer a downloadable standalone export — `<Name>-standalone.html`, one offline file with
+  everything inlined, for humans to click through. It is not a handoff's build source.
 - Keep summaries short: what changed, caveats, next steps. Flag scope-reversals explicitly.
 
 ## When the user asks to hand off

@@ -3,6 +3,8 @@
 You are implementing <PROJECT> **as the real, shipped application** in the target codebase —
 **the final product, with data mocked as the only difference.**
 
+**Themes in scope:** <light only | light + dark>. Every theme line below refers to these.
+
 Read `README.md` first (full spec), then **§0b below** (what in this package is *not* the product),
 then follow THIS protocol.
 
@@ -61,8 +63,8 @@ and tables describe the product — reasons never do.
 
 ## 1. Non-negotiables
 - **1:1 with `reference_screens/`** (grouped per app/surface) for *visual fidelity* — match
-  layout, spacing, color, copy, both themes. When unsure, open `<Screen>-prototype.<ext>` and
-  look — never the full design document (§0b).
+  layout, spacing, color, copy, every theme in scope. When unsure, open `<Screen>-prototype.<ext>`
+  and look — never the full design document (§0b).
   **"1:1" means visual fidelity ONLY — it is NOT a licence to copy the prototype's DOM,
   inline styles, device frame, or dual-theme scaffolding.** Reproduce what the screen *looks
   like* using the real app's shell, components, and tokens; never transcribe the prototype's
@@ -100,10 +102,10 @@ lockstep with the build loop.
 ```
 for each screen in IMPLEMENTATION ORDER:
   1. Read this screen's CHECKLIST.md section.
-  2. Study reference_screens/<App>/<screen>.png (+ dark variant) for visual fidelity.
+  2. Study reference_screens/<App>/<screen>.png (+ its variant per theme in scope).
   3. Build it at its REAL route, in the REAL app shell, with REAL components; mock data via
      the real controller→template seam (fixtures.json).
-  4. Render in the running app and SCREENSHOT (light + dark).
+  4. Render in the running app and SCREENSHOT (every theme in scope).
   5. COMPARE to the reference; list diffs; fix; re-render until it matches.
   6. Tick every CHECKLIST box for this screen.
   7. Commit. Then next screen.
@@ -112,11 +114,11 @@ May not declare a screen done with any box unticked or any visible diff. Unresol
 `NOTES.md`, never silently skipped.
 
 ## 4. Implementation order (smallest blast radius first)
-1. Tokens + theme switch (verify on a throwaway swatch page in both themes — delete it before
-   committing; it is not product, §0b)
+1. Tokens (+ theme switch when more than one theme is in scope) — verify on a throwaway swatch
+   page in every theme in scope; delete it before committing, it is not product (§0b)
 2. Shared components
 3. …screens, one per task…  <list them>
-4. Full pass — run the whole CHECKLIST end to end in both themes.
+4. Full pass — run the whole CHECKLIST end to end in every theme in scope.
 5. **Adversarial completeness pass** — a reviewer that did NOT build the screens audits the
    delivery against `INVENTORY.md` + every reference PNG, asking only *"what is missing?"*
    (unbuilt state, dropped affordance, unmatched reference, unticked box). Its findings are
@@ -149,7 +151,7 @@ the template would then have to be re-plumbed away from.
 - [ ] `INVENTORY.md` fully ticked, and an **adversarial completeness pass** (by a non-builder)
       found nothing missing vs the inventory + reference PNGs.
 - [ ] Mock field shapes recorded in NOTES.md as the seam contract for the backend task.
-- [ ] Light + dark verified; accessibility bar met; min touch target met.
+- [ ] Every theme in scope verified; accessibility bar met; min touch target met.
 - [ ] Tokens only; all copy in <locale>; no invented features; no widened data.
 - [ ] No improvised/broken icons or assets — every affordance uses a real app component.
 - [ ] NOTES.md summarizes decisions made + anything to flag to a human.

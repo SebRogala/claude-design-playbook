@@ -9,8 +9,8 @@ implementation. Two different agents read it for two different jobs — find you
 
 ## What Claude Design is (if this session has never seen it)
 Claude Design is Anthropic's design canvas: Claude authors screens as `.dc.html` artboards
-(self-contained HTML, one per frame) laid out on a pan/zoom canvas; a human refines them visually;
-the canvas exports PNG/PDF. In this playbook the Claude project running on that canvas is called
+(HTML that runs with a small `support.js` runtime, one per frame) laid out on a pan/zoom canvas; a
+human refines them visually; the canvas exports PNG/PDF. In this playbook the Claude project running on that canvas is called
 **ClaudeDesign** — the design partner. It can read a connected GitHub repo (tokens, components,
 existing patterns) but cannot commit, cannot reach private trackers, and sees images only when
 attached. Those limits decide what a brief must carry.
@@ -36,8 +36,9 @@ coding agent follows its `AGENT.md`.
 2. Wire the design context: attach or link the design-system repo the brief points at. **No design
    context → stop and ask; never mock from scratch.**
 3. Triage the brief per `PRODUCE.md` ("When handed a task"), agree scope, write the screen
-   inventory into `PROJECT.md`, commit the system (type, color, spacing, shared components), then
-   design. Log decisions into `PROJECT.md` as you go.
+   inventory into `PROJECT.md`, then design — token spine committed with the first screen, shared
+   components extracted once two screens exist (`PRODUCE.md` → While building). Log decisions
+   into `PROJECT.md` as you go.
 4. Read `HANDOFF.md` and `templates/` **only** when the user asks for a handoff.
 
 You read this repo; you cannot commit to it. Improvements to a playbook file are edited in the
@@ -47,7 +48,7 @@ working project and handed back — the user commits them here.
 - [ ] `CLAUDE.md` + `PROJECT.md` in the project root, specifics filled from the brief.
 - [ ] Design context wired (tokens/components attached or linked).
 - [ ] Scope + screen inventory agreed and written into `PROJECT.md`.
-- [ ] Design system committed (type, color, spacing, shared components).
+- [ ] Token spine committed with the first screen; shared components extracted at two screens.
 - [ ] Producing ≠ handing off — `HANDOFF.md` untouched until a handoff is requested.
 
 ## Repo contents

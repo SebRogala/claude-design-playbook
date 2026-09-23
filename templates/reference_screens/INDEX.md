@@ -1,7 +1,7 @@
 # Reference screens — index
 
 Ground-truth renders at **true frame aspect ratio** (full frame, no crop, no margin). The
-implementation must match these — layout, spacing, color (tokens), copy, both themes.
+implementation must match these — layout, spacing, color (tokens), copy, every theme in scope.
 Group into one subfolder per app/surface.
 
 - **Phone screens:** <device width> px wide × natural height.

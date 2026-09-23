@@ -25,7 +25,7 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 
 ### 1. `AGENT.md` — the operating protocol
 - A **per-screen build loop**, stated as the agent's required process:
-  `read this screen's checklist → study its reference PNG (light+dark) → implement with the
+  `read this screen's checklist → study its reference PNG (each theme in scope) → implement with the
   fixtures + token layer → render → screenshot → compare to the reference, list diffs, fix,
   repeat until it matches → tick every checklist box → commit → next screen.`
 - **Implementation order**, smallest blast radius first: tokens+theme → shared components →
@@ -40,7 +40,7 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 - Open with a **"⛔ MUST NOT DROP"** block listing the edge cases agents skip. Enumerate them
   explicitly for THIS design — e.g. null/empty states, error/cancelled/pending variants,
   conditional affordances that must hide cleanly (no layout gap), locale pluralization,
-  config-driven 1..N UI that collapses at N=1, both themes, accessibility bar, tokens-only,
+  config-driven 1..N UI that collapses at N=1, every theme in scope, accessibility bar, tokens-only,
   exact localized copy.
 - Then a per-screen section of tickable, testable lines. Unticked = not done.
 
@@ -50,9 +50,10 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   dates, etc.).
 
 ### 4. `reference_screens/` — the 1:1 ground truth
-- A PNG **per screen AND per important state** (include dark mode, every status/variant, and
-  desktop if applicable). Plus an `INDEX.md` mapping `file → screen/state` and how to reach
-  interactive states in the stripped prototype (§6). These images are what "looks 1:1" is measured against.
+- A PNG **per screen AND per important state** (include every theme in scope, every
+  status/variant, and desktop if applicable). Plus an `INDEX.md` mapping `file → screen/state` and
+  how to reach interactive states in the stripped prototype (§6). These images are what "looks
+  1:1" is measured against.
 - **Group by app/surface** when there's more than one app (e.g. `reference_screens/<App A>/`,
   `reference_screens/<App B>/`).
 - **Recapture immediately before handing off.** Designs keep moving after capture; a set that is
@@ -72,14 +73,20 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   - Calibrate the css→pixel scale once (drop a known-size marker rect, measure it) so crops
     are exact; then crop each tile to the frame's width and stitch.
   - Desktop frames wider than the viewport: scale down to fit width (single tile), keep ratio.
+  - **Wide scrolling tables** (columns overflow the frame): also capture the **table element
+    itself** at its full content width, as its own reference PNG next to the frame capture —
+    otherwise the scrolled-off columns appear in no reference.
   - **Always eyeball the bottom of each tall frame** to confirm the last element (bottom nav,
     final list row, footer) is present — that's the part naive captures silently drop.
   - Keep intermediate tiles in a temp folder and delete it when done; ship only the stitched PNGs.
 
 ### 5. `README.md` — the full spec (self-sufficient)
-- Tokens (with values), per-screen layout/components/copy, interactions & state, data shapes,
+- Tokens, per-screen layout/components/copy, interactions & state, data shapes,
   glossary, constraints, and a list of **open decisions** the implementer must resolve
   (anything you had to guess, new token candidates awaiting approval, integration choices).
+- **Tokens:** list them with values until they exist in the app codebase. Once an earlier package
+  has put them there, point at the app's token file (the one `AGENT.md` §1 names) and list only the
+  tokens this package introduces — never copy the full table; per-package copies drift.
 - **Mark the open-decisions list as questions, not requirements** — "do not invent answers".
   Unmarked, it reads like a spec section and gets satisficed like one.
 - Keep the *reasoning* behind non-obvious rules ("destructive actions are never one-click —
@@ -97,6 +104,9 @@ So, at handoff time:
   Name it with a hyphen, never brackets — brackets get stripped on save, and the docs then point at
   a file that doesn't exist. It is not self-contained: ship its `support.js` beside it (fonts and
   icons still load from the network).
+- The stripped prototype is **not** the standalone export (`<Name>-standalone.html`, one offline
+  file with everything inlined). The standalone is for humans — client, reviewers — to click
+  through; the prototype is for the agent. Never ship the standalone as the build source.
 - Ship the full design document beside it only if provenance matters, labelled
   **"provenance only — do not build from it"** in the package `README.md`.
 - `templates/AGENT.md` **§0b** carries the file-by-file classification (product / ground truth /
@@ -108,11 +118,12 @@ into the folder, and **always do both of these together**:
 1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
    is created OR re-generated, so the user never has to scroll back through the thread to find the
    latest copy. Re-presenting is cheap; a stale/lost download is not.
-2. **Register it on the Index page.** Set `handoff: { dir, date }` on that view's entry in the
-   `VIEWS` array of `Index.dc.html` (`dir` = the slug under `handoffs/`, `date` = today) so the
-   card shows a Handoff chip linking to the package README. Refresh `date` whenever the handoff is
-   regenerated. This is how the user answers "do I have a recent handoff, and where is it?" without
-   digging.
+2. **Register it on the Index page, if `Index.dc.html` exists** (it is created at ≥2 views; with
+   a single view the `handoffs/README.md` table is the index). Set `handoff: { dir, date }` on
+   that view's entry in the `VIEWS` array of `Index.dc.html` (`dir` = the slug under `handoffs/`,
+   `date` = today) so the card shows a Handoff chip linking to the package README. Refresh `date`
+   whenever the handoff is regenerated. This is how the user answers "do I have a recent handoff,
+   and where is it?" without digging.
 
 > Note: a link inside the Index (an HTML page) can *open* the handoff README, but it cannot trigger
 > the chat download card — only the assistant can. That's why step 1 (re-present in chat) is
