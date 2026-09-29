@@ -52,6 +52,9 @@ will ask, so fill them up front.
    paste values. Rule: token/component layer only, never raw hex.
 5. **Interactions & data** — expected behaviors (optimistic save, bulk actions, redirects…),
    and API shapes if the UI consumes them (endpoint + method + what each action does).
+   When a view shows data from **more than one owner** (module, service, bounded context), name
+   the owner of each data area: the handoff's `fixtures.json` declares an owner per field
+   (`HANDOFF.md` §3), and without this input it can only write `unknown`.
 6. **Constraints** — accessibility bar (e.g. WCAG AA), min touch target, framing (PWA/no chrome),
    and explicit **out-of-scope** items.
 7. **Deliverable expectations** — fidelity (hi-fi), how many **variations/options** to explore
@@ -81,6 +84,7 @@ implements from the same text. `prepare-ui-task` emits it filled.
 
 ## Interactions / API
 <endpoints, optimistic behavior, auth/scoping — if any>
+<data owners, when the view joins several: data area → module/service>
 
 ## Constraints
 <a11y, ≥44px touch, PWA framing, out-of-scope>

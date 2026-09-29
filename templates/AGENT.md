@@ -19,12 +19,17 @@ mocked. Concretely that means:
 - **Data mocked at the real seam** — pass mock values through the *same* controller→template (or
   props) boundary that real data will use, so going live = **swap the data source only**, no
   re-layout. Do NOT build a backend, auth, or real persistence.
-- **Scope boundary — STOP at the seam.** The mock is a hardcoded fixture (array/JSON/in-memory
-  stub) placed *at* the controller→template boundary. Do **NOT** build anything on the data side of
-  that seam: no entities/models, migrations, repositories, API endpoints, services, DTOs, query
-  layer, DI/wiring, or schema. Backend architecture is a **separate task** — if a screen seems to
-  need it, stub the value and note it in `NOTES.md`; never implement it. Touch only view/template,
-  component, client controller (Stimulus/JS), route registration, and the fixture that feeds them.
+- **Scope boundary — STOP at the seam.** The mock is a fixture (JSON/array/in-memory stub) that
+  feeds the view through the boundary real data will use. Build nothing that makes the data real:
+  no schema or migrations, no persistence or writes, no queries against real storage, no real
+  integrations or endpoints, no auth. Backend work is a **separate task** — if a screen seems to
+  need it, stub the value and note it in `NOTES.md`.
+  **The seam takes whatever shape the codebase requires.** Sort each piece by one test — *does
+  going live keep it?* Kept (the view, its components, the route, and any typed boundary the
+  codebase demands: read models, DTOs, a port interface) → it is the seam; build it. Replaced (the
+  fixture and the adapter that reads it) → it is the mock; build it, one per data owner (§6).
+  Added only when going live (the real query, the write path) → it is the backend; stub and note
+  it. This package names no code layers; the codebase's own rules and gates decide them.
 - The **reference PNGs define visual fidelity, they are NOT the delivery format.**
 
 **Anti-patterns (do NOT do these):** a preview/gallery page; a device-bezel/phone-frame mockup;
@@ -40,7 +45,7 @@ The package mixes **the thing to build** with **the reasoning about it**. Build 
 |---|---|
 | `<Screen>-prototype.<ext>` | **THE SCREEN.** The only file describing what to build. |
 | `reference_screens/` PNGs | **Visual ground truth.** Match these. Not a delivery format. |
-| `fixtures.json` | **Data contract.** Consume as-is. |
+| `fixtures.json` | **Data contract** — every field, value, owner and format. Consume it all; map names onto existing codebase types per §6. |
 | `CHECKLIST.md` | **Acceptance contract.** Every box is a requirement. |
 | `README.md` prose | **Spec + reasoning, mixed.** See the rule below. |
 | `README.md § Spec changes vs ticket` | **Decided requirements that supersede the ticket.** Build Y, not X; write them back (below). |
@@ -136,24 +141,35 @@ May not declare a screen done with any box unticked or any visible diff. Unresol
 See `reference_screens/INDEX.md` for file → screen/state mapping and how to reach interactive states.
 
 ## 6. Data rules
-Consume `fixtures.json` exactly. Do not invent, rename, or widen fields. Honor `_note` keys.
-Pin formats (<money/date formats>). Label/status/category sets the real system reads from data
-come through the fixture too — never as constants in a template or component.
+Consume every field and value in `fixtures.json`. Do not invent or widen fields. Honor `_note`
+keys. Pin formats (<money/date formats>). Label/status/category sets the real system reads from
+data come through the fixture too — never as constants in a template or component.
 
-The mock's **field shape is a contract**: name and structure each value the way the real
-backend will emit it, because "swap the data source only" holds *only* if the shape matches.
-Where the eventual shape is uncertain, record the assumed shape per screen in `NOTES.md` as a
-requirement the later backend task must honor — never silently pick a convenient shape that
-the template would then have to be re-plumbed away from.
+**One fixture source per data owner.** `fixtures.json` → `_owners` says which part of the system
+produces each field. Put each owner's fields behind that owner's own boundary with its own
+fixture adapter, so going live swaps one owner's source at a time. A single adapter reading the
+whole file makes "swap the data source only" false wherever a screen joins several owners.
+
+**The fixture fixes *what* each value is — name, meaning, type, format, owner — not the
+codebase's types.** Where the codebase already has a type for an entity (an existing read model,
+status or label type), use that type and its names, and record the mapping *fixture field →
+codebase field* in `NOTES.md`. Where it has none, keep the fixture's names. Nesting and grouping
+follow the codebase's boundary types and size rules.
+
+The seam's **field shape is a contract** for the later backend task: "swap the data source only"
+holds *only* if the real source delivers the same shape. Record the shape you built per screen in
+`NOTES.md` as a requirement that task must honor — never silently pick a convenient shape the
+template would then have to be re-plumbed away from.
 
 ## 7. Definition of done
 - [ ] Every screen implemented **at its real route, in the real app shell, with real components**,
       and committed. No preview/gallery/bezel page anywhere.
 - [ ] Going live = **swap the data source only** — no re-layout needed (mock data sits at the real
       controller→template seam).
-- [ ] **No backend built.** Nothing on the data side of the seam — no entities, migrations,
-      repositories, endpoints, services, DTOs, or schema. Backend is a separate task; unmet needs
-      are stubbed + noted in NOTES.md, not implemented.
+- [ ] **No backend built.** Nothing that makes the data real — no schema, persistence, writes,
+      queries against real storage, or real integrations (§0's "does going live keep it?" test).
+      Backend is a separate task; unmet needs are stubbed + noted in NOTES.md, not implemented.
+- [ ] One fixture source per data owner (§6); fixture → codebase name mappings in NOTES.md.
 - [ ] Every CHECKLIST box ticked (or blockers logged in NOTES.md).
 - [ ] `INVENTORY.md` fully ticked, and an **adversarial completeness pass** (by a non-builder)
       found nothing missing vs the inventory + reference PNGs.

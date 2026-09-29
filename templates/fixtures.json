@@ -1,8 +1,16 @@
 {
-  "_note": "Exact mock data for the <PROJECT> frontend build. Do NOT invent, rename, or widen fields. Put _note keys on records that carry an edge case so the agent can't skip it. Pin all formats (money, dates, etc.). Replace this skeleton with the real sample data.",
+  "_note": "Exact mock data for the <PROJECT> frontend build. Do NOT invent or widen fields; where the codebase already has a type for an entity, map onto it and record the mapping (AGENT.md §6). Put _note keys on records that carry an edge case so the agent can't skip it. Pin all formats (money, dates, etc.). Replace this skeleton with the real sample data.",
+
+  "_owners": {
+    "_note": "One entry per top-level key (or field path) → the part of the system that produces it (HANDOFF.md §3). Values: '<module/service/entity>' | 'derived: <formula>' | 'session' | 'config' | 'unknown' (also an open decision in README).",
+    "_example_entity": "<module that stores it>",
+    "_example_entity.derivedField": "derived: <formula>",
+    "_current_user": "session"
+  },
 
   "_example_entity": {
     "field": "value",
+    "derivedField": "value",
     "nullableField": null,
     "_note": "nullableField null → render <graceful treatment>, NOT an error"
   },

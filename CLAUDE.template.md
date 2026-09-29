@@ -12,6 +12,7 @@ Central repo: **github.com/<YOU>/claude-design-playbook** (read fresh; don't rel
 - While **producing** design work → follow `PRODUCE.md` from that repo.
 - Only when I explicitly ask to **hand off to a coding agent** → read `HANDOFF.md` (and the
   `templates/`) from that repo and follow it exactly. Do **not** pull `HANDOFF.md` before then.
+  The handoff is not ready to present until every `HANDOFF.md` §7 pre-ship check passes.
 
 ## Project specifics (fill these in)
 - **Product:** _what it is, who uses it._

@@ -7,6 +7,8 @@ Group into one subfolder per app/surface.
 - **Phone screens:** <device width> px wide × natural height.
 - **Desktop screens:** <W × H>.
 - **Captured:** <YYYY-MM-DD> — recapture if the design file changed after this date.
+- **Fixture state shown:** <page size, selected ids, active view/filters> (`HANDOFF.md` §7 checks
+  it against `../fixtures.json`).
 
 ## `<App A>/`
 | File | Screen / state | What to match |

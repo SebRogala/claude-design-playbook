@@ -34,6 +34,11 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   diff remains; unresolved blockers go in `NOTES.md`, never silently skipped.
 - **Stack rule:** use the codebase's existing patterns/components; if greenfield, pick one
   stack and stay in it. Frontend look only unless told otherwise — wire to fixtures, not a backend.
+- **Scope in outcomes, not code layers.** Keep §0's STOP line as the template words it: it fences
+  what makes data real (schema, persistence, real queries, integrations). Add no layer names
+  ("no DTOs", "no query layer", "no services") — the design side cannot see the codebase's
+  architecture gates (observed in one project: the typed boundary the codebase's gates required
+  was exactly what the handoff had forbidden, and the build stopped for a ruling).
 - A **definition of done** for the whole job + "no invented features / no widened data".
 
 ### 2. `CHECKLIST.md` — binary acceptance contract
@@ -46,8 +51,22 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
 
 ### 3. `fixtures.json` — exact mock data
 - The real sample data the screens render. Add `_note` keys on the records that carry edge
-  cases. State plainly: **"do not invent, rename, or widen fields."** Pin formats (money,
-  dates, etc.).
+  cases. State plainly: **"do not invent or widen fields."** Pin formats (money,
+  dates, etc.). Name each field for its meaning and let nesting follow the data, not a guessed
+  backend: where the codebase already has a type for an entity, the implementer maps onto it
+  (`templates/AGENT.md` §6).
+- **Declare the owner of every field** in a top-level `_owners` map: which part of the system
+  produces it — the module/service/entity that stores it, `derived: <formula>`, `session`, or
+  `config`; an owner the brief does not give is `unknown` and goes under README § Open
+  decisions, never guessed. Group fields by owner at the top level where the screen joins
+  several. The implementer puts one fixture source behind each owner (`templates/AGENT.md` §6);
+  one mixed file makes "swap the data source only" false.
+- **Invent personal data on reserved domains.** Names, phone numbers and addresses are made up,
+  and every e-mail uses an RFC 2606 domain as a `<name>.example.com` subdomain, so no fixture
+  address can reach a real mailbox or a real company. Keep the long and edge-case values the
+  render needs; only the domain changes (`dzial.zakupow@hurtownia-budowlana.example.com`, not a
+  real provider such as `wp.pl`). Real providers and plausible company domains may belong to
+  someone even when the local part is invented.
 
 ### 4. `reference_screens/` — the 1:1 ground truth
 - A PNG **per screen AND per important state** (include every theme in scope, every
@@ -124,8 +143,43 @@ So, at handoff time:
   contract / reasoning / agent output) and the reading rule for prose. Keep §0b filled in per
   package — it is the fence that makes a mixed-prose `README.md` safe.
 
-**Then:** copy the stripped prototype + its `support.js` (plus the full document, if shipped per §6)
-into the folder, and **always do both of these together**:
+### 7. Pre-ship checks — catch contradictions inside the package
+Purpose: the package is written across many sessions, and its parts drift apart — prose against
+prototype, fixtures against the spec, the index against the files. Each check below compares two
+parts of the package (or the package against the brief) and passes only when they agree. Run
+all of them on the finished folder; fix the package, not the check. (Observed in one project:
+every item here failed at least once in a single package, and each failure cost the build a
+refusal, an amendment or a ruling.)
+1. **Fixtures against the spec's identity rules.** Every identity key the spec defines (login
+   e-mail, tax id, account number) maps to one entity with one set of attributes — never one
+   e-mail with two different phones.
+2. **Fixtures against their own format pins.** Every value has the form `_formats` (or the
+   top-level `_note`) pins for it — a pinned scale of 2 decimals means every money value carries
+   2 decimals.
+3. **Counts against records.** Every count or total the screen shows is derivable from the
+   records, or the fixture labels it a separate server figure with its own `_note`.
+4. **Screen state against the references.** Page size, selected ids, active view and filters in
+   `fixtures.json` equal what the reference PNGs and `reference_screens/INDEX.md` show.
+5. **Copy against fields.** Copy that names data — a search placeholder ("search by order,
+   customer, tracking number"), a column, an empty-state hint — names fields the fixture
+   carries, and UI the brief does not list carries the brief's to-confirm marking. A named field
+   the data lacks is an open decision in README, with the interim behaviour.
+6. **Tokens against the prototype.** Grep the stripped prototype for the values it renders
+   (radii, font weights, border/bar/rule widths, fixed heights). Each one is in the README token
+   table, or the prototype changes to the nearest token before capture. No token is a range
+   (`11–13` cannot be reconciled to one rendered value), and `README.md` and `CHECKLIST.md`
+   quote the same value for the same thing.
+7. **Assets against the prototype.** Each external asset in README § Assets matches the
+   prototype's `<link>` / `@import` tags: exact version, every weight and style loaded. A claim
+   that the target codebase already has an asset is checked in that codebase, or removed.
+8. **References against the index and §4.** Every file in `reference_screens/` is a PNG at the
+   frame width `INDEX.md` states (`file reference_screens/*` shows type and size), has exactly
+   one row in the `INDEX.md` table, and has a unique prefix; the capture date passes §4's
+   recapture rule; "how to reach" points at the stripped prototype (§6), never at the
+   provenance-only design document.
+
+**Then,** with every §7 check passing, copy the stripped prototype + its `support.js` (plus the
+full document, if shipped per §6) into the folder, and **always do both of these together**:
 1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
    is created OR re-generated, so the user never has to scroll back through the thread to find the
    latest copy. Re-presenting is cheap; a stale/lost download is not.
