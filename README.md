@@ -23,11 +23,13 @@ playbook, fork it and point Designer and the skill at your fork.
 
 ## What Claude Design is (if this session has never seen it)
 *As observed in September 2026 — the product changes; verify against the current one.*
-Claude Design is Anthropic's design canvas: Claude authors screens as `.dc.html` artboards
-(HTML that runs with a small `support.js` runtime, one per frame) laid out on a pan/zoom canvas; a
-human refines them visually; the canvas exports PNG/PDF. In this playbook the Claude Design project
-running on that canvas is called **Designer** — the design partner. It can read a connected GitHub repo (tokens, components,
-existing patterns) but cannot commit, cannot reach private trackers, and sees images only when
+Claude Design is Anthropic's design canvas, a separate product at
+[claude.ai/design](https://claude.ai/design) — not the design tooling inside Claude Code
+(Artifact design systems, the `artifact-design` skill, `/design`). Claude authors screens as
+`.dc.html` artboards (HTML that runs with a small `support.js` runtime, one per frame) laid out on
+a pan/zoom canvas; a human refines them visually; the canvas exports PNG/PDF. In this playbook the
+Claude Design project running on that canvas is called **Designer** — the design partner. It can
+read a connected GitHub repo (tokens, components, existing patterns) but cannot commit, cannot reach private trackers, and sees images only when
 attached. Those limits decide what a brief must carry.
 
 ## Door 1 — you are the app-project agent (Claude Code, where scope is being discussed)
