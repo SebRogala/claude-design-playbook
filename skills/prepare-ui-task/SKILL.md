@@ -2,7 +2,8 @@
 name: prepare-ui-task
 description: >-
   Assemble a complete, design-ready UI task from a YouTrack/Jira/Linear ticket before handing it
-  to Designer (a Claude Design project — the HTML-mockup design partner). Use when the user says
+  to Designer (a Claude Design project at claude.ai/design, not Claude Code's own design tooling —
+  the HTML-mockup design partner; see the playbook README). Use when the user says
   "prepare UI task", "make a design task", "hand this to design", or pastes a ticket meant to
   become a UI design.
   Produces a single self-contained task block the user pastes into Designer.

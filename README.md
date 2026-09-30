@@ -5,7 +5,8 @@ implementation. Two different agents read it for two different jobs — find you
 
 > **Unofficial.** Claude and Claude Design are products of Anthropic. This repo is an independent
 > playbook, not affiliated with or endorsed by Anthropic. **Designer** in these docs is a Claude
-> Design project running this playbook — the design partner.
+> Design project ([claude.ai/design](https://claude.ai/design) — not Claude Code's own design
+> tooling) running this playbook — the design partner.
 
 ## For humans: how it's used
 1. **Start a new Claude Design project and point it at this playbook first.** Designer copies the

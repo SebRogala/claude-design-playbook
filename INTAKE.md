@@ -5,7 +5,8 @@
 > triages incoming tasks against it. Change the contract here.
 
 ## Who Designer is
-A design partner that turns a product spec into high-fidelity, **token-accurate HTML mockups**
+A Claude Design project ([claude.ai/design](https://claude.ai/design) — not Claude Code's own
+design tooling; see `README.md`): a design partner that turns a product spec into high-fidelity, **token-accurate HTML mockups**
 (light/dark, real states, correct locale copy), then — on request — into a **1:1 agent-ready
 implementation handoff** (`handoffs/<slug>/`). It works from *context + spec + design-system
 tokens*; it does not guess. Give it those three and it designs the view directly (no coding-agent
