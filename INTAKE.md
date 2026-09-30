@@ -97,9 +97,10 @@ Fidelity: hi-fi. Variations: <N, on which axis>. Themes: <…>. Handoff wanted: 
 <anything the spec omits but the UI needs>
 ```
 
-## Claude Code skill
-`skills/prepare-ui-task/` assembles this task from a tracker ticket. Install it into the app
-project (`.claude/skills/prepare-ui-task` — a symlink into a clone of this repo keeps it current),
+## Agent skill (optional)
+`skills/prepare-ui-task/` assembles this task from a tracker ticket. Install it where the app
+project's agent loads skills (Claude Code: `.claude/skills/prepare-ui-task`; a symlink into a clone
+of this repo keeps it current),
 then say **"prepare UI task"**. It reads this file for the contract; see its `SKILL.md` for how it
 locates it.
 

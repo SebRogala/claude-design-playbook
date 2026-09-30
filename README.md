@@ -1,7 +1,11 @@
-# claude-design-playbook (unofficial)
+# Claude Design Playbook
 
 Playbook for producing UI designs with Claude Design and handing them to a coding agent for a 1:1
 implementation. Two different agents read it for two different jobs — find your door below.
+
+Only the design side is tied to a vendor (Claude Design). The coding side is vendor-agnostic: the
+brief contract and the handoff package are plain Markdown, JSON and PNGs that any coding agent able
+to read files can follow. It has been tested with Claude Code.
 
 > **Unofficial.** Claude and Claude Design are products of Anthropic. This repo is an independent
 > playbook, not affiliated with or endorsed by Anthropic. **Designer** in these docs is a Claude
@@ -11,14 +15,14 @@ implementation. Two different agents read it for two different jobs — find you
 ## For humans: how it's used
 1. **Start a new Claude Design project and point it at this playbook first.** Designer copies the
    project files in and wires up the design context (Door 2 below) before any design work.
-2. **Send the brief.** In the app's own Claude Code session (on your machine), have the agent
+2. **Send the brief.** In the app's own coding-agent session (on your machine), have the agent
    prepare the intake per `INTAKE.md` — the `prepare-ui-task` skill does it — and paste the
    result into Designer.
 3. **Design together.** Iterate on the canvas until you're happy with it.
 4. **Ask for the handoff.** Designer packages it per `HANDOFF.md`; give the package to the coding agent
    in the app project, which implements it 1:1 following its `AGENT.md`.
 
-Prerequisites: Claude Design access, a coding agent in the app repo (written against Claude Code),
+Prerequisites: Claude Design access, a coding agent in the app repo (any vendor),
 and the app or design-system repo on GitHub so Designer can read its tokens and components. To adapt the
 playbook, fork it and point Designer and the skill at your fork.
 
@@ -33,7 +37,7 @@ Claude Design project running on that canvas is called **Designer** — the desi
 read a connected GitHub repo (tokens, components, existing patterns) but cannot commit, cannot reach private trackers, and sees images only when
 attached. Those limits decide what a brief must carry.
 
-## Door 1 — you are the app-project agent (Claude Code, where scope is being discussed)
+## Door 1 — you are the app-project agent (the coding agent where scope is being discussed)
 Your deliverable is the **brief**: one pasteable task block Designer can design from without a
 follow-up question.
 1. Read `INTAKE.md` — the contract: what Designer can access, the seven required fields, the
@@ -43,7 +47,8 @@ follow-up question.
    never invented.
 3. Hand the block to the user. They paste it into Designer and into the ticket.
 
-`skills/prepare-ui-task/` does steps 1–3 as a Claude Code skill when installed. Later, when a
+`skills/prepare-ui-task/` does steps 1–3 as an agent skill (`SKILL.md` format) when installed;
+without it, follow the steps by hand. Later, when a
 handoff package comes back under `handoffs/<slug>/`, it is attached to the same ticket and the
 coding agent follows its `AGENT.md`.
 
@@ -73,7 +78,7 @@ working project and handed back — the user commits them here.
 | File | Role | Who reads it, when |
 |---|---|---|
 | `INTAKE.md` | The UI-task input contract + template (normative) | App-project agent, writing the brief; Designer, triaging it |
-| `skills/prepare-ui-task/` | Claude Code skill that assembles the brief from a tracker ticket | App-project agent |
+| `skills/prepare-ui-task/` | Optional agent skill that assembles the brief from a tracker ticket | App-project agent |
 | `CLAUDE.template.md` | Per-project pointer → drop in as `CLAUDE.md` | Designer, auto-loaded every session |
 | `PROJECT.template.md` | Per-project living brain → drop in as `PROJECT.md` | Designer, read/updated every session |
 | `PRODUCE.md` | Design-production conventions | Designer, while designing |
