@@ -30,6 +30,9 @@ mocked. Concretely that means:
   fixture and the adapter that reads it) → it is the mock; build it, one per data owner (§6).
   Added only when going live (the real query, the write path) → it is the backend; stub and note
   it. This package names no code layers; the codebase's own rules and gates decide them.
+- **Restyle only** (keep when the screen already exists in the app; delete otherwise): edit the
+  existing template <path> in place, at the existing route <route>. No new route, no second
+  template. Keep existing behaviour and tests; update only the assertions that check changed copy.
 - The **reference PNGs define visual fidelity, they are NOT the delivery format.**
 
 **Anti-patterns (do NOT do these):** a preview/gallery page; a device-bezel/phone-frame mockup;

@@ -66,7 +66,8 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   address can reach a real mailbox or a real company. Keep the long and edge-case values the
   render needs; only the domain changes (`dzial.zakupow@hurtownia-budowlana.example.com`, not a
   real provider such as `wp.pl`). Real providers and plausible company domains may belong to
-  someone even when the local part is invented.
+  someone even when the local part is invented. The rule covers staff and consultant e-mails and
+  the client's own company domain too, not just customers.
 
 ### 4. `reference_screens/` — the 1:1 ground truth
 - A PNG **per screen AND per important state** (include every theme in scope, every
@@ -94,12 +95,20 @@ URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
   - Desktop frames wider than the viewport: scale down to fit width (single tile), keep ratio.
   - **Wide scrolling tables** (columns overflow the frame): also capture the **table element
     itself** at its full content width, as its own reference PNG next to the frame capture —
-    otherwise the scrolled-off columns appear in no reference.
+    otherwise the scrolled-off columns appear in no reference. Row menus and cell popovers that
+    open in scrolled-off columns are captured on the table element at full width too — a frame
+    capture clips them.
   - **Always eyeball the bottom of each tall frame** to confirm the last element (bottom nav,
     final list row, footer) is present — that's the part naive captures silently drop.
   - Keep intermediate tiles in a temp folder and delete it when done; ship only the stitched PNGs.
 
 ### 5. `README.md` — the full spec (self-sufficient)
+Skeleton: `templates/README.md`.
+- **Open with `## What's in this package`**, right after the title and version line: one line per
+  file giving its role — build source, provenance only, spec, acceptance contract, data, ground
+  truth (with the PNG count), implementer's protocol, runtime — then the one-line instruction to
+  give the agent (below, "How the user runs the resulting package"). Someone who opens only the
+  README knows what they received.
 - Tokens, per-screen layout/components/copy, interactions & state, data shapes,
   glossary, constraints, and a list of **open decisions** the implementer must resolve
   (anything you had to guess, new token candidates awaiting approval, integration choices).
@@ -155,7 +164,10 @@ refusal, an amendment or a ruling.)
    e-mail with two different phones.
 2. **Fixtures against their own format pins.** Every value has the form `_formats` (or the
    top-level `_note`) pins for it — a pinned scale of 2 decimals means every money value carries
-   2 decimals.
+   2 decimals. Pin thousands grouping explicitly ("always grouped", or not): some locales skip it
+   for 4-digit numbers by default (Polish: `2770,40 zł` vs `2 770,40 zł`), so the prototype, the
+   fixture note and the app's money component can silently disagree. The prototype renders
+   exactly what the pin states.
 3. **Counts against records.** Every count or total the screen shows is derivable from the
    records, or the fixture labels it a separate server figure with its own `_note`.
 4. **Screen state against the references.** Page size, selected ids, active view and filters in
@@ -177,12 +189,19 @@ refusal, an amendment or a ruling.)
    one row in the `INDEX.md` table, and has a unique prefix; the capture date passes §4's
    recapture rule; "how to reach" points at the stripped prototype (§6), never at the
    provenance-only design document.
+9. **Prototype state against the references.** Row striping, selection and counts stay correct
+   under every filter the references show. (Observed in one project: stripes were keyed to the
+   unfiltered index, so filtered rows striped wrongly.)
 
 **Then,** with every §7 check passing, copy the stripped prototype + its `support.js` (plus the
 full document, if shipped per §6) into the folder, and **always do both of these together**:
 1. **Present the folder for download in chat** (a download card) — do this *every* time a handoff
    is created OR re-generated, so the user never has to scroll back through the thread to find the
    latest copy. Re-presenting is cheap; a stale/lost download is not.
+   **Also deliver it as a named archive**, `<product>-handoff--<slug>.zip`, holding one top-level
+   folder of the same name; re-pack it every time the package is regenerated. A downloaded folder
+   takes the Claude Design *project* name, not the folder name (observed in one project: a project
+   auto-named from its first chat message shipped every handoff as `<that sentence>.zip`).
 2. **Register it on the Index page, if `Index.dc.html` exists** (it is created at ≥2 views; with
    a single view the `handoffs/README.md` table is the index). Set `handoff: { dir, date }` on
    that view's entry in the `VIEWS` array of `Index.dc.html` (`dir` = the slug under `handoffs/`,
@@ -193,6 +212,16 @@ full document, if shipped per §6) into the folder, and **always do both of thes
 > Note: a link inside the Index (an HTML page) can *open* the handoff README, but it cannot trigger
 > the chat download card — only the assistant can. That's why step 1 (re-present in chat) is
 > mandatory alongside step 2 (link in Index), not a substitute for it.
+
+### Restyling a screen that already exists in the app
+- **`## Spec changes vs ticket` becomes `## Spec changes vs current app`**, compared against the
+  implemented template/route — its first line names the file and the ref. Same *X → Y*, why
+  format. `AGENT.md` §0b's row and ticket paragraph follow the rename.
+- **`AGENT.md` §0 keeps its restyle bullet:** edit the existing template in place, at the existing
+  route — no new route, no second template. Keep existing behaviour and tests; update only the
+  assertions that check changed copy.
+- Observed in one project: an admin login built without a design shipped a misspelled error
+  message. Catching that is what this package type is for.
 
 ### How the user runs the resulting package
 Point the agent at the folder with one instruction:

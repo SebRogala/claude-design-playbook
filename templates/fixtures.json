@@ -16,7 +16,7 @@
   },
 
   "_formats": {
-    "money": "e.g. 120,00 zł (locale, decimal separator, suffix); negative = ...",
+    "money": "e.g. 2 770,40 zł (locale, decimal separator, thousands grouping: always | never — state it, 4-digit values included; suffix); negative = ...",
     "date": "e.g. 2026-06-17 stored; 17 czerwca displayed"
   }
 }
