@@ -16,9 +16,9 @@ mocked. Concretely that means:
   chrome), **real navigation** in and out of the view.
 - **Real app components & conventions** — the existing Button, Input, Select, Modal, etc. Never
   re-style or hand-roll what the app already has a component for.
-- **Data mocked at the real seam** — pass mock values through the *same* controller→template (or
-  props) boundary that real data will use, so going live = **swap the data source only**, no
-  re-layout. Do NOT build a backend, auth, or real persistence.
+- **Data mocked at the real seam** — pass mock values through the *same* boundary the view will read
+  real data from, so going live = **swap the data source only**, no re-layout. Do NOT build a
+  backend, auth, or real persistence.
 - **Scope boundary — STOP at the seam.** The mock is a fixture (JSON/array/in-memory stub) that
   feeds the view through the boundary real data will use. Build nothing that makes the data real:
   no schema or migrations, no persistence or writes, no queries against real storage, no real
@@ -119,7 +119,7 @@ for each screen in IMPLEMENTATION ORDER:
   1. Read this screen's CHECKLIST.md section.
   2. Study reference_screens/<App>/<screen>.png (+ its variant per theme in scope).
   3. Build it at its REAL route, in the REAL app shell, with REAL components; mock data via
-     the real controller→template seam (fixtures.json).
+     the real seam (fixtures.json).
   4. Render in the running app and SCREENSHOT (every theme in scope).
   5. COMPARE to the reference; list diffs; fix; re-render until it matches.
   6. Tick every CHECKLIST box for this screen.
@@ -167,8 +167,8 @@ template would then have to be re-plumbed away from.
 ## 7. Definition of done
 - [ ] Every screen implemented **at its real route, in the real app shell, with real components**,
       and committed. No preview/gallery/bezel page anywhere.
-- [ ] Going live = **swap the data source only** — no re-layout needed (mock data sits at the real
-      controller→template seam).
+- [ ] Going live = **swap the data source only** — no re-layout needed (mock data sits at
+      the real seam).
 - [ ] **No backend built.** Nothing that makes the data real — no schema, persistence, writes,
       queries against real storage, or real integrations (§0's "does going live keep it?" test).
       Backend is a separate task; unmet needs are stubbed + noted in NOTES.md, not implemented.

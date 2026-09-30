@@ -4,7 +4,7 @@
 > skeletons for each artifact are in `templates/`; copy them in and fill them out.
 
 **Goal:** a package a coding agent can implement faithfully and unattended. What it must produce —
-the real app at its real route, mock data at the controller→template seam, nothing built behind the
+the real app at its real route, mock data at the real seam, nothing built behind the
 seam, no preview/bezel/side-by-side pages — is defined **once, in `templates/AGENT.md` §0**
 (normative); this file is about producing the package that enforces it. Prose specs get satisficed —
 agents build the happy path, invent simpler data, drop buried edge cases, and ship previews instead
@@ -21,7 +21,8 @@ diacritics), spaces → `-`, path segments joined by `--`, ticket id prefixed wh
 surface(s) covered instead (`handoffs/parent-pwa--instructor-pwa/`). The human-readable breadcrumb
 (with `→` and diacritics) goes in the package `README.md` heading and in the `handoffs/README.md`
 index table — never in the directory name (arrows, spaces, parens and diacritics break shells,
-URLs, zips and Windows). Maintain that `handoffs/README.md` table indexing them:
+URLs, zips and Windows). Maintain that `handoffs/README.md` table: one row per package —
+breadcrumb, directory, date.
 
 ### 1. `AGENT.md` — the operating protocol
 - A **per-screen build loop**, stated as the agent's required process:

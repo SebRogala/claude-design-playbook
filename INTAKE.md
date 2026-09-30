@@ -1,10 +1,10 @@
-# INTAKE.md — how to brief ClaudeDesign (the UI-task input contract)
+# INTAKE.md — how to brief CD (the UI-task input contract)
 
 > **Normative.** The access constraints, the required fields, and the task template below are
 > defined here and nowhere else. `skills/prepare-ui-task/` reads this file at run time; `PRODUCE.md`
 > triages incoming tasks against it. Change the contract here.
 
-## Who ClaudeDesign is
+## Who CD is
 A design partner that turns a product spec into high-fidelity, **token-accurate HTML mockups**
 (light/dark, real states, correct locale copy), then — on request — into a **1:1 agent-ready
 implementation handoff** (`handoffs/<slug>/`). It works from *context + spec + design-system
@@ -13,25 +13,25 @@ round-trip needed first).
 
 ## The loop
 ```
-YouTrack ticket ──paste──▶ ClaudeDesign ──designs──▶ mockups (you review/iterate)
-                                        └──on request──▶ handoff package
-                                                          │
-                            attach handoff to the SAME ticket ──▶ coding agent implements
-                                                                  (from ticket + handoff, 1:1;
-                                                                   handoff's spec changes win)
+Tracker ticket  ──paste──▶ CD ──designs──▶ mockups (you review/iterate)
+                              └──on request──▶ handoff package
+                                                │
+                  attach handoff to the SAME ticket ──▶ coding agent implements
+                                                        (from ticket + handoff, 1:1;
+                                                         handoff's spec changes win)
 ```
 
-## What ClaudeDesign can and can't access (affects what a task must include)
-- **GitHub — read only.** If the design-system repo is connected, ClaudeDesign reads tokens,
+## What CD can and can't access (affects what a task must include)
+- **GitHub — read only.** If the design-system repo is connected, CD reads tokens,
   components, and source **directly from GitHub** — so a task can just *point* at the repo/path
   (e.g. `<org>/<design-system-repo> → path/to/tokens.css`) instead of pasting token values. It
   cannot **commit or push** — you commit its returned files and attach the handoff to the ticket.
-- **Private trackers (YouTrack/Jira) — no access.** ClaudeDesign cannot reach them. The **spec
+- **Private trackers (YouTrack/Jira) — no access.** CD cannot reach them. The **spec
   must be pasted as text** (this is the one field that always comes verbatim in the ticket body).
 - **Screenshots/images — yes**, if attached to the message (needed for redesigns).
 
 ## What a good UI design task MUST contain
-Assemble a task with these fields before handing it to ClaudeDesign. Missing fields = ClaudeDesign
+Assemble a task with these fields before handing it to CD. Missing fields = CD
 will ask, so fill them up front.
 
 1. **Surface & audience** — which app/area (admin CRM / parent PWA / instructor PWA / …), who
@@ -45,9 +45,9 @@ will ask, so fill them up front.
    **defaults & derived states** (e.g. "unmarked = ABSENT, never stored"), edge cases
    (null instructor, cancelled, make-up, demo…), and any state machine. Copy the real ticket
    text; do not paraphrase away the edge cases — they're what makes the design correct.
-   **This is the field ClaudeDesign can't fetch itself — always paste it.**
+   **This is the field CD can't fetch itself — always paste it.**
 4. **Design-system source** — where tokens/components live (repo + path, e.g.
-   `<org>/<design-system-repo> → path/to/tokens.css`, components in `<path>`). ClaudeDesign
+   `<org>/<design-system-repo> → path/to/tokens.css`, components in `<path>`). CD
    **reads these from GitHub directly** if the repo is connected — a path is enough, no need to
    paste values. Rule: token/component layer only, never raw hex.
 5. **Interactions & data** — expected behaviors (optimistic save, bulk actions, redirects…),
@@ -62,11 +62,11 @@ will ask, so fill them up front.
    coding stack, e.g. Twig + Stimulus).
    - **When a handoff IS wanted, its implementation is the real app with mocked data** — the view
      at its real route, in the real shell, with real components; the only difference from
-     production is a fixture at the controller→template seam, and nothing is built behind that
+     production is a fixture at the real data seam, and nothing is built behind that
      seam. The deliverable-shape rule is `templates/AGENT.md` §0 (normative).
 
 ## Task template
-The one block to fill — paste it into ClaudeDesign, and into the ticket so the coding agent later
+The one block to fill — paste it into CD, and into the ticket so the coding agent later
 implements from the same text. `prepare-ui-task` emits it filled.
 
 ```md
@@ -103,8 +103,8 @@ then say **"prepare UI task"**. It reads this file for the contract; see its `SK
 locates it.
 
 ## Why this shape
-ClaudeDesign's output quality tracks its input directly: the sharpest results this project has
-produced came from pasting the real ticket (data model + edge cases pinned). The intake template
+CD's output quality tracks its input directly: in the author's use, the sharpest results
+came from pasting the real ticket (data model + edge cases pinned). The intake template
 guarantees those arrive every time. Tokens/components it can read from GitHub itself — so the
 **one thing that must always be pasted is the tracker spec**. Attaching the handoff back to the
 ticket means the coding agent implements from one self-contained source of truth — once the
