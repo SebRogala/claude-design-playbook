@@ -51,6 +51,8 @@ will ask, so fill them up front.
    `<org>/<design-system-repo> → path/to/tokens.css`, components in `<path>`). Designer
    **reads these from GitHub directly** if the repo is connected — a path is enough, no need to
    paste values. Rule: token/component layer only, never raw hex.
+   No design system yet → write `none — greenfield`. Designer then explores whole-system
+   directions on the first view before any screen (`PRODUCE.md` → Greenfield: directions first).
 5. **Interactions & data** — expected behaviors (optimistic save, bulk actions, redirects…),
    and API shapes if the UI consumes them (endpoint + method + what each action does).
    When a view shows data from **more than one owner** (module, service, bounded context), name
@@ -81,7 +83,7 @@ implements from the same text. `prepare-ui-task` emits it filled.
 <pasted ticket text — entities, enums, defaults/derived, edge cases, state machine>
 
 ## Design system
-<repo → path for tokens + components>   (tokens/components only, no raw hex)
+<repo → path for tokens + components | none — greenfield>   (tokens/components only, no raw hex)
 
 ## Interactions / API
 <endpoints, optimistic behavior, auth/scoping — if any>
@@ -91,7 +93,7 @@ implements from the same text. `prepare-ui-task` emits it filled.
 <a11y, ≥44px touch, PWA framing, out-of-scope>
 
 ## Deliverable
-Fidelity: hi-fi. Variations: <N, on which axis>. Themes: <…>. Handoff wanted: <yes/no — stack>.
+Fidelity: hi-fi. Variations: <N, on which axis | greenfield: ~3 system directions first>. Themes: <…>. Handoff wanted: <yes/no — stack>.
 
 ## Open questions (flag, don't invent)
 <anything the spec omits but the UI needs>

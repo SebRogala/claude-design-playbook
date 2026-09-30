@@ -23,7 +23,9 @@ start mocking on an incomplete brief:
 
 ## Before starting
 - **Get design context first.** A design system, UI kit, codebase, brand, or reference is
-  required — mocking from scratch is a last resort. If none is attached, ask for one.
+  required — mocking from scratch is a last resort. If none is attached, ask for one. The one
+  exception: the brief's design-system field says `none — greenfield` → run **Greenfield:
+  directions first** (below) before any screen.
 - **Ask for the source ticket / spec, and use it verbatim.** When the task comes from a tracker
   (Jira/YouTrack/Linear), have the user paste the ticket text — I can't reach private trackers,
   but pasted specs are gold: they pin the data model, states, and edge cases (e.g. "unmarked =
@@ -33,6 +35,21 @@ start mocking on an incomplete brief:
   direction are ambiguous. One good round beats guessing.
 - **Use the token/component layer** of the brand — never raw hex that bypasses it. If a needed
   color/token is missing, invent a clearly-flagged candidate and call it out.
+
+## Greenfield: directions first
+Applies when the brief says `none — greenfield`: there is no system to follow yet, so establish one
+before building screens.
+1. **Vehicle:** the first briefed view — the densest one if the brief has several; it sets the
+   scale. Use its real spec and data, so directions are judged on the product, not a mood board.
+2. **Directions:** about 3 whole-system directions of that view, side by side on one canvas,
+   each labelled. Each is a coherent system — type pairing, neutrals + accents, density,
+   spacing/radius, component feel — and they differ on the system, not on layout details.
+3. **Rounds until the user picks.** Refine, combine or replace directions on feedback. Expect
+   several rounds (observed: from one to about nine). The user's pick ends this phase — don't
+   converge on your own.
+4. **Commit the pick** as the token spine and record it in `PROJECT.md` → Design system decisions
+   (picked direction and why; rejected ones, one line each). The vehicle view, rebuilt on the
+   spine, is the first screen; continue per "While building".
 
 ## Fixing an existing screen ("this looks weird")
 - **Diagnosis is part of the job.** "It looks weird / off" is a valid brief — don't ask the user
@@ -45,9 +62,9 @@ start mocking on an incomplete brief:
   align them; two surfaces that disagree on the data model aren't one product.
 
 ## While building
-- **Greenfield:** commit a **token spine** (type, neutrals, 1–2 accents, spacing/radius/density)
-  *with* the first screen — pick the densest one, it sets the scale. Extract shared components
-  once 2 screens exist; don't author a library speculatively. With an existing design system,
+- **Greenfield:** the **token spine** (type, neutrals, 1–2 accents, spacing/radius/density) is the
+  direction picked in "Greenfield: directions first", and ships *with* the first screen. Extract
+  shared components once 2 screens exist; don't author a library speculatively. With an existing design system,
   use its tokens/components instead. Either way, apply the system consistently; introduce variety
   with intent, not noise.
 - Both light and dark if the product needs it. Respect accessibility (contrast, the project's

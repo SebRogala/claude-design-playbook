@@ -16,6 +16,7 @@
 - **Rule:** use the token/component layer; never raw hex. Flag any new token candidate.
 
 ## Design system decisions (the committed system)
+- **Direction (greenfield only):** _picked direction + why; rejected directions, one line each._
 - **Type:** _pairing + scale._
 - **Color/background tones, accents:** _…_
 - **Layout / density / spacing / radius:** _…_

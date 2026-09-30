@@ -56,10 +56,11 @@ coding agent follows its `AGENT.md`.
 1. Copy `CLAUDE.template.md` → **`CLAUDE.md`** and `PROJECT.template.md` → **`PROJECT.md`** into
    the project root. Fill "Project specifics" from the brief — surface, locale, themes, tokens
    repo, constraints are all in it.
-2. Wire the design context: attach or link the design-system repo the brief points at. **No design
-   context → stop and ask; never mock from scratch.**
+2. Wire the design context: attach or link the design-system repo the brief points at. Brief says
+   `none — greenfield` → nothing to wire; run directions first (`PRODUCE.md` → Greenfield:
+   directions first). **Otherwise, no design context → stop and ask; never mock from scratch.**
 3. Triage the brief per `PRODUCE.md` ("When handed a task"), agree scope, write the screen
-   inventory into `PROJECT.md`, then design — token spine committed with the first screen, shared
+   inventory into `PROJECT.md`, then design — token spine committed with the first screen (greenfield: the picked direction), shared
    components extracted once two screens exist (`PRODUCE.md` → While building). Log decisions
    into `PROJECT.md` as you go.
 4. Read `HANDOFF.md` and `templates/` **only** when the user asks for a handoff.
@@ -69,7 +70,7 @@ working project and handed back — the user commits them here.
 
 ### Kickoff checklist
 - [ ] `CLAUDE.md` + `PROJECT.md` in the project root, specifics filled from the brief.
-- [ ] Design context wired (tokens/components attached or linked).
+- [ ] Design context wired (tokens/components attached or linked) — or, greenfield, a direction picked.
 - [ ] Scope + screen inventory agreed and written into `PROJECT.md`.
 - [ ] Token spine committed with the first screen; shared components extracted at two screens.
 - [ ] Producing ≠ handing off — `HANDOFF.md` untouched until a handoff is requested.

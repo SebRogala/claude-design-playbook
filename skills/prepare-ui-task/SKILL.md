@@ -27,7 +27,8 @@ required fields, and the task template this skill emits. Locate it, in order:
 ## Procedure
 1. **Read `INTAKE.md`** (above).
 2. **Fill every field you can yourself** from the ticket, the repo, and its README. Design-system
-   pointer = repo + path; Designer reads GitHub, so point, don't paste values.
+   pointer = repo + path; Designer reads GitHub, so point, don't paste values. No design system
+   yet → `none — greenfield`.
 3. **Pull the spec verbatim** from the linked ticket(s), with whatever tracker access this session
    has — none → ask the user to paste the ticket text: entities, status enums, defaults/derived
    states, edge cases, state machine. Never paraphrase edge cases away — this is the one field
