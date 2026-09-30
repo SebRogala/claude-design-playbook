@@ -60,7 +60,7 @@ working project and handed back — the user commits them here.
 | `PROJECT.template.md` | Per-project living brain → drop in as `PROJECT.md` | ClaudeDesign, read/updated every session |
 | `PRODUCE.md` | Design-production conventions | ClaudeDesign, while designing |
 | `HANDOFF.md` | The 1:1 agent-handoff playbook | ClaudeDesign, **only** when a handoff is requested |
-| `templates/` | Skeletons: handoff (`AGENT.md`, `CHECKLIST.md`, `fixtures.json`, `reference_screens/INDEX.md`) + the project map (`Index.dc.html`) | Handoff time; `Index.dc.html` once there are ≥2 views |
+| `templates/` | Skeletons: handoff (`AGENT.md`, `README.md`, `CHECKLIST.md`, `fixtures.json`, `reference_screens/INDEX.md`) + the project map (`Index.dc.html`) | Handoff time; `Index.dc.html` once there are ≥2 views |
 
 The core idea is to **keep two things separate**: producing a design (everyday, light context) and
 handing off to a coding agent (a later, distinct job with heavy context, loaded only when asked) —
