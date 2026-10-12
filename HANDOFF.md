@@ -58,7 +58,9 @@ breadcrumb, directory, date.
   (`templates/AGENT.md` §6).
 - **Declare the owner of every field** in a top-level `_owners` map: which part of the system
   produces it — the module/service/entity that stores it, `derived: <formula>`, `session`, or
-  `config`; an owner the brief does not give is `unknown` and goes under README § Open
+  `config`. Split derived values by where they are computed: `derived (server): <formula>` is
+  served and cached, so the implementer stubs it; `derived (client, this task): <formula>` is built
+  in this task. An owner the brief does not give is `unknown` and goes under README § Open
   decisions, never guessed. Group fields by owner at the top level where the screen joins
   several. The implementer puts one fixture source behind each owner (`templates/AGENT.md` §6);
   one mixed file makes "swap the data source only" false.
@@ -81,6 +83,9 @@ breadcrumb, directory, date.
   a week old will disagree with the prototype on row counts, copy and chrome, and "1:1" then means
   "1:1 with something that no longer exists". Note the capture date in `INDEX.md` and check it
   against the design file's last change.
+- **Designer running in Claude Code:** capture with `LOCAL.md` → Capturing reference PNGs; it
+  replaces the overlay, tiling and stitching steps below, and every other rule in this section
+  stands.
 - **⚠ Capture full frames at true aspect ratio — never raw viewport screenshots.** A plain
   screenshot crops to the preview viewport: tall scrolling screens get cut off at the bottom,
   the aspect ratio is wrong, and there's dead margin/neighbor frames at the edges. That makes
@@ -115,15 +120,19 @@ Skeleton: `templates/README.md`.
   (anything you had to guess, new token candidates awaiting approval, integration choices).
 - **Tokens:** list them with values until they exist in the app codebase. Once an earlier package
   has put them there, point at the app's token file (the one `AGENT.md` §1 names) and list only the
-  tokens this package introduces — never copy the full table; per-package copies drift.
+  tokens this package introduces — never copy the full table; per-package copies drift. A value
+  that points at a design-tool URL (a canvas upload, `/_blob/<id>`) is replaced by the repo path of
+  its source file, in the table and in any CSS the package ships.
 - **`## Spec changes vs ticket`** — where the *final* design departs from the ticket, mined at
   handoff time (decisions churn while designing; only the final state counts). Get the *what* by
   comparing the final design against the ticket spec as pasted in the intake brief — fields,
   states, rules, copy, scope — since the thread may not hold decisions from earlier sessions; then
   take the *why* from the design thread and `PROJECT.md`'s decisions log, or write "why: not
   recorded" rather than invent one.
-  First line under the heading: the source compared against — ticket id + intake brief path — so
-  the agent can check it. Then one entry per change: *ticket said X → build Y*, why. `CHECKLIST.md`, `fixtures.json` and the
+  First line under the heading: the source compared against — ticket id as of handoff day (date) +
+  intake brief path — so the agent can check it. A ticket filed during design has no brief: write
+  "ticket <id> as filed <date>; no intake brief". Corrections already written into the ticket
+  during design are not spec changes; the ticket already says Y. Then one entry per change: *ticket said X → build Y*, why. `CHECKLIST.md`, `fixtures.json` and the
   reference PNGs must already show Y. With none, write **"None — the ticket is current."** so an
   empty section can't be mistaken for a missing one. These are *decided*, unlike open decisions;
   `templates/AGENT.md` §0b says how the agent uses them.
@@ -193,6 +202,23 @@ refusal, an amendment or a ruling.)
 9. **Prototype state against the references.** Row striping, selection and counts stay correct
    under every filter the references show. (Observed in one project: stripes were keyed to the
    unfiltered index, so filtered rows striped wrongly.)
+10. **Numbers against the data.** Every number a reference PNG or the prototype shows equals
+    `fixtures.json` (or its `derived` block), and every formula in README reproduces those values.
+    (Observed in one project: two references showed figures from an unconverged engine, and a README
+    formula gave ~11,340 against 11,349 in CHECKLIST; each cost a ruling.)
+11. **States against the drawings.** Every state CHECKLIST names — empty, loading, error, disabled,
+    edit mode, failure of an action — is drawn in a reference or reachable in the prototype, or is
+    listed under Open decisions with its interim behaviour.
+12. **MUST-NOT-DROP against Open decisions.** No CHECKLIST line requires something an Open decision
+    leaves undecided.
+13. **Contrast measured.** Every text/background token pair the prototype uses is measured against
+    the accessibility bar README states; a pair below it is fixed or listed as an open decision.
+    (Observed: a muted text token at 4.48:1 under a WCAG AA bar.)
+14. **Claims about the codebase checked.** Every statement about what the target code already has
+    or requires (a component, a grant, an endpoint) is checked in that code, or removed.
+15. **Decisions captured.** Mine the whole design thread for decisions and business rules; each is
+    in `PROJECT.md`'s decisions log and in README, CHECKLIST or `fixtures.json`. (Observed in one
+    project: the owner had to ask for this pass, and it found two missing decisions.)
 
 **Then,** with every §7 check passing, copy the stripped prototype + its `support.js` (plus the
 full document, if shipped per §6) into the folder, and **always do both of these together**:
@@ -213,6 +239,17 @@ full document, if shipped per §6) into the folder, and **always do both of thes
 > Note: a link inside the Index (an HTML page) can *open* the handoff README, but it cannot trigger
 > the chat download card — only the assistant can. That's why step 1 (re-present in chat) is
 > mandatory alongside step 2 (link in Index), not a substitute for it.
+
+### Changing a package after the build started
+Once an implementer has started from a package, change it only by a dated **amendment**: a
+`## Amendments` section at the end of `README.md` listing each change (file, what changed, why),
+plus the changed files. Tell the user so the implementer is pointed at it. A silent edit forces
+the implementer to rebase and re-audit everything (observed in one project).
+
+### One design, several packages
+When one design session covers more than one ticket, ship **one package per ticket**, each with its
+own slug. They may share one design file; each package's `README.md` names the others and says
+which parts of the shared design are its own.
 
 ### Restyling a screen that already exists in the app
 - **`## Spec changes vs ticket` becomes `## Spec changes vs current app`**, compared against the

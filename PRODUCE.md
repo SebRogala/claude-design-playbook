@@ -14,12 +14,16 @@ start mocking on an incomplete brief:
    pull tokens/components from the design-system repo, and study existing patterns the task
    references (how similar forms/modals are built, working-hours/slot conventions, how selects
    source their data). Don't ask the user for anything you can read.
-3. **Ask only for what you genuinely can't obtain** — missing spec fields, ambiguous scope, and
+3. **Check the spec's checkable facts** (costs, colours, pool membership, limits) against the
+   repo or a named external source before designing. A wrong fact goes back to the user as a ticket
+   correction, not into the boards. (Observed in one project: a wrong currency colour in the ticket
+   flipped the headline verdict for two of three families until the owner caught it on day 2.)
+4. **Ask only for what you genuinely can't obtain** — missing spec fields, ambiguous scope, and
    any field the spec omits but the UI plausibly needs (flag it, don't silently invent — e.g. "the
    field list has no title; workshops may need one — confirm or I'll show it marked 'do potwierdzenia'").
-4. **Discuss the key decisions up front** — the variation axis, notable edge cases, and open
+5. **Discuss the key decisions up front** — the variation axis, notable edge cases, and open
    questions — and confirm direction with the user.
-5. **Then design.** (Not before; a wrong assumption pasted into 3 mockups costs more than one question.)
+6. **Then design.** (Not before; a wrong assumption pasted into 3 mockups costs more than one question.)
 
 ## Before starting
 - **Get design context first.** A design system, UI kit, codebase, brand, or reference is
@@ -64,13 +68,41 @@ before building screens.
 ## While building
 - **Greenfield:** the **token spine** (type, neutrals, 1–2 accents, spacing/radius/density) is the
   direction picked in "Greenfield: directions first", and ships *with* the first screen. Extract
-  shared components once 2 screens exist; don't author a library speculatively. With an existing design system,
+  shared components once 2 screens exist — containers included (page shell, panel/section, strip,
+  tab bar, dock, drawer), not only leaf controls; each board composes from them instead of restyling
+  its own. Don't author a library speculatively. With an existing design system,
   use its tokens/components instead. Either way, apply the system consistently; introduce variety
   with intent, not noise.
 - Both light and dark if the product needs it. Respect accessibility (contrast, the project's
   touch-target floor — ≥44px on touch devices).
 - Placeholders beat bad guesses — use labelled placeholders for missing assets/imagery.
+- **Sample data from the real source when one exists.** The brief's fixture-data field names it
+  (`INTAKE.md` field 5); real values make boards credible from round 1 and become the handoff's
+  `fixtures.json`. Invent data only when the field says there is none.
+- **Check computed figures.** When a board shows derived numbers (EV, totals, rates), run the
+  calculation on the fixture data outside the canvas and compare. A rendering check does not
+  catch a wrong formula.
+- **App chrome is recreated 1:1 from the app's source, or left out.** Sidebar, top bar and nav on
+  a board either match the source exactly (labels, icons, order) or are absent; never an
+  approximation. (Observed in one project: an approximated sidebar drew "why isn't this the real
+  app?" twice and cost a full chrome rebuild.)
+- **Data tables in `.dc.html`:** test `<sc-for>` inside `<tbody>` on one board before relying on
+  it. Observed both ways: one project saw the rows moved out of the table by the HTML parser,
+  another (runtime contract 0.2.47) saw them render. If they move, build the table as CSS grid
+  with ARIA table roles, and state in the handoff that the app uses a real `<table>`.
+- **`{{hole}}` text renders inside a `<span>`,** so a descendant rule such as `.badge span {}`
+  restyles it too. Scope such rules to a class. (Observed three times in one project, first as a
+  9px level badge.)
+- **One shared sample dataset from round 1.** Every board takes its records from the same dataset
+  (one file in the canvas folder, or one section of `PROJECT.md`), so counts, names and totals
+  agree across boards. It grows into the handoff's `fixtures.json`. (Observed in one project: each
+  board hard-coded its own data and they disagreed until the handoff reconciliation.)
+- **An owner's sketch that replaces the briefed variants** becomes a new round (page) with its own
+  board. Record in `PROJECT.md`'s decisions log which variants it retires; retired boards stay on
+  their page with "(retired)" in their title.
 - No filler content or data slop. Every element earns its place. Ask before adding material.
+  When the user rejects one instance of a pattern (a helper line, an explanatory caption), remove
+  every instance across all boards in the same round, and log the rule in `PROJECT.md`.
 - Keep the design in as few files as sensible; add screens/variations to the existing artifact
   rather than forking into many files. Present options clearly labelled on a neutral canvas.
 

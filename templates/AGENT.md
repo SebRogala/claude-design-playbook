@@ -33,6 +33,10 @@ mocked. Concretely that means:
 - **Restyle only** (keep when the screen already exists in the app; delete otherwise): edit the
   existing template <path> in place, at the existing route <route>. No new route, no second
   template. Keep existing behaviour and tests; update only the assertions that check changed copy.
+- **Existing UI touched** (keep when the package also changes UI already in the app; delete
+  otherwise): <file → the change, one line each>. Edit each in place; keep its behaviour and tests
+  except where the line says otherwise. A package may be only this bullet (an in-place change with
+  no new view).
 - The **reference PNGs define visual fidelity, they are NOT the delivery format.**
 
 **Anti-patterns (do NOT do these):** a preview/gallery page; a device-bezel/phone-frame mockup;
@@ -78,8 +82,9 @@ unconfirmed: build what the package shows and flag it in `NOTES.md` under the sa
 
 ## 1. Non-negotiables
 - **1:1 with `reference_screens/`** (grouped per app/surface) for *visual fidelity* — match
-  layout, spacing, color, copy, every theme in scope. When unsure, open `<Screen>-prototype.<ext>`
-  and look — never the full design document (§0b).
+  layout, spacing, color, copy, every theme in scope. **The prototype `<Screen>-prototype.<ext>`
+  is the behaviour source:** states, conditional copy, interactions. Read its source before raising
+  any "not drawn" question; most answers are in it. Never the full design document (§0b).
   **"1:1" means visual fidelity ONLY — it is NOT a licence to copy the prototype's DOM,
   inline styles, device frame, or dual-theme scaffolding.** Reproduce what the screen *looks
   like* using the real app's shell, components, and tokens; never transcribe the prototype's
@@ -117,7 +122,8 @@ lockstep with the build loop.
 ```
 for each screen in IMPLEMENTATION ORDER:
   1. Read this screen's CHECKLIST.md section.
-  2. Study reference_screens/<App>/<screen>.png (+ its variant per theme in scope).
+  2. Study reference_screens/<App>/<screen>.png (+ its variant per theme in scope), and read
+     this screen's part of the prototype source for states and behaviour the PNGs don't show.
   3. Build it at its REAL route, in the REAL app shell, with REAL components; mock data via
      the real seam (fixtures.json).
   4. Render in the running app and SCREENSHOT (every theme in scope).
@@ -126,7 +132,9 @@ for each screen in IMPLEMENTATION ORDER:
   7. Commit. Then next screen.
 ```
 May not declare a screen done with any box unticked or any visible diff. Unresolvable →
-`NOTES.md`, never silently skipped.
+`NOTES.md`, never silently skipped. If the app cannot be rendered where you work (steps 4–5),
+say so in `NOTES.md` before the first screen and ask for a waiver or a render path; do not tick
+visual boxes without one.
 
 ## 4. Implementation order (smallest blast radius first)
 1. Tokens (+ theme switch when more than one theme is in scope) — verify on a throwaway swatch
