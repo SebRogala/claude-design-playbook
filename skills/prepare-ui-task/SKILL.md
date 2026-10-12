@@ -36,7 +36,11 @@ required fields, and the task template this skill emits. Locate it, in order:
 4. **Ask the user only for what you genuinely can't obtain.** If the spec omits a field the UI
    plausibly needs, **flag it under "Open questions"** — never silently invent it.
 5. **Emit `INTAKE.md`'s task template, filled**, as one block the user pastes into Designer
-   and into the ticket.
+   and into the ticket. When Designer runs in Claude Code (playbook `LOCAL.md`; ask the user if
+   unsure), also write it to `design/tasks/<slug>.intake.md`, creating the folder if needed
+   (`<slug>` per the playbook's `HANDOFF.md` slug rule), and give the user that path plus the
+   Designer's first prompt, copied verbatim from `LOCAL.md` → Three sessions: the first-run
+   variant when the repo has no `design/CLAUDE.md`. A bare `/design <brief>` skips the playbook.
 
 ## After Designer returns
 On request it produces a 1:1 handoff under `handoffs/<slug>/`. Attach that folder to the **same

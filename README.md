@@ -8,9 +8,9 @@ brief contract and the handoff package are plain Markdown, JSON and PNGs that an
 to read files can follow. It has been tested with Claude Code.
 
 > **Unofficial.** Claude and Claude Design are products of Anthropic. This repo is an independent
-> playbook, not affiliated with or endorsed by Anthropic. **Designer** in these docs is a Claude
-> Design project ([claude.ai/design](https://claude.ai/design) — not Claude Code's own design
-> tooling) running this playbook — the design partner.
+> playbook, not affiliated with or endorsed by Anthropic. **Designer** in these docs is Claude
+> Design running this playbook — the design partner: a Claude Design project on the web, or a
+> Claude Code session using `/design` (Door 2).
 
 ## For humans: how it's used
 1. **Start a new Claude Design project and point it at this playbook first.** Designer copies the
@@ -29,13 +29,17 @@ playbook, fork it and point Designer and the skill at your fork.
 ## What Claude Design is (if this session has never seen it)
 *As observed in September 2026 — the product changes; verify against the current one.*
 Claude Design is Anthropic's design canvas, a separate product at
-[claude.ai/design](https://claude.ai/design) — not the design tooling inside Claude Code
-(Artifact design systems, the `artifact-design` skill, `/design`). Claude authors screens as
+[claude.ai/design](https://claude.ai/design). Claude authors screens as
 `.dc.html` artboards (HTML that runs with a small `support.js` runtime, one per frame) laid out on
 a pan/zoom canvas; a human refines them visually; the canvas exports PNG/PDF. In this playbook the
 Claude Design project running on that canvas is called **Designer** — the design partner. It can
 read a connected GitHub repo (tokens, components, existing patterns) but cannot commit, cannot reach private trackers, and sees images only when
 attached. Those limits decide what a brief must carry.
+
+*Update, October 2026:* the standalone product closes on 2026-12-14. Claude Design now also runs
+inside Claude and inside Claude Code (`/design`), where a canvas is an Artifact with the same
+`.dc.html` artboards, and a Claude Code session reads the app repo directly. That is Door 2b
+(`LOCAL.md`).
 
 ## Door 1 — you are the app-project agent (the coding agent where scope is being discussed)
 Your deliverable is the **brief**: one pasteable task block Designer can design from without a
@@ -52,7 +56,15 @@ without it, follow the steps by hand. Later, when a
 handoff package comes back under `handoffs/<slug>/`, it is attached to the same ticket and the
 coding agent follows its `AGENT.md`.
 
-## Door 2 — you are Designer (a new Claude Design project)
+## Door 2 — you are Designer
+Designer runs in one of two places. Same canvas format, same contracts; what differs is where the
+project lives.
+- **2a — a Claude Design project on the web** (below). The standalone claude.ai/design closes on
+  2026-12-14; whether Claude Design inside Claude (web) follows this path is not yet tested.
+- **2b — a Claude Code session in the app repo** (`/design`). Pilot: read `LOCAL.md`; it lists
+  what changes against the steps below, and its overrides win.
+
+### Door 2a — a new Claude Design project
 1. Copy `CLAUDE.template.md` → **`CLAUDE.md`** and `PROJECT.template.md` → **`PROJECT.md`** into
    the project root. Fill "Project specifics" from the brief — surface, locale, themes, tokens
    repo, constraints are all in it.
@@ -84,6 +96,8 @@ working project and handed back — the user commits them here.
 | `PROJECT.template.md` | Per-project living brain → drop in as `PROJECT.md` | Designer, read/updated every session |
 | `PRODUCE.md` | Design-production conventions | Designer, while designing |
 | `HANDOFF.md` | The 1:1 agent-handoff playbook | Designer, **only** when a handoff is requested |
+| `LOCAL.md` | Overrides for Designer running in Claude Code (pilot) | Designer on Door 2b, every session |
+| `tools/capture-canvas.mjs` | Renders canvas boards to full-height reference PNGs | Designer on Door 2b, at handoff (`LOCAL.md` → Capturing reference PNGs) |
 | `templates/` | Skeletons: handoff (`AGENT.md`, `README.md`, `CHECKLIST.md`, `fixtures.json`, `reference_screens/INDEX.md`) + the project map (`Index.dc.html`) | Handoff time; `Index.dc.html` once there are ≥2 views |
 
 The core idea is to **keep two things separate**: producing a design (everyday, light context) and

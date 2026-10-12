@@ -5,6 +5,8 @@
 
 ## Playbook source
 Central repo: **github.com/<YOU>/claude-design-playbook** (read fresh; don't rely on memory).
+Running as a Claude Code session in the app repo (this file at `design/CLAUDE.md`)? Point at the
+local clone instead and read its `LOCAL.md` first; its overrides win.
 - When I **paste a task** → triage it first per `PRODUCE.md` ("When handed a task"): check it
   against `INTAKE.md`, read the connected repo yourself for anything readable (tokens, components,
   existing patterns), ask me only for what you genuinely can't obtain, and discuss the key design
@@ -15,6 +17,7 @@ Central repo: **github.com/<YOU>/claude-design-playbook** (read fresh; don't rel
   The handoff is not ready to present until every `HANDOFF.md` §7 pre-ship check passes.
 
 ## Project specifics (fill these in)
+- **Repo visibility (Claude Code path only):** _public | private — decides what is committed (`LOCAL.md` → What goes in git)._
 - **Product:** _what it is, who uses it._
 - **Design source of truth:** _the design file(s) in this project._
 - **Brand tokens / design system:** _where colors, type, components come from. Rule: use the

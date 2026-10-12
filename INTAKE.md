@@ -10,7 +10,8 @@ design tooling; see `README.md`): a design partner that turns a product spec int
 (light/dark, real states, correct locale copy), then — on request — into a **1:1 agent-ready
 implementation handoff** (`handoffs/<slug>/`). It works from *context + spec + design-system
 tokens*; it does not guess. Give it those three and it designs the view directly (no coding-agent
-round-trip needed first).
+round-trip needed first). Designer can also run as a Claude Code session in the app repo; the
+access rules below then change as `LOCAL.md` says.
 
 ## The loop
 ```
@@ -58,6 +59,8 @@ will ask, so fill them up front.
    When a view shows data from **more than one owner** (module, service, bounded context), name
    the owner of each data area: the handoff's `fixtures.json` declares an owner per field
    (`HANDOFF.md` §3), and without this input it can only write `unknown`.
+   Name where **real sample data** comes from (database, table, endpoint, export), or write
+   `none — compose from the spec`; without it Designer invents the numbers.
 6. **Constraints** — accessibility bar (e.g. WCAG AA), min touch target, framing (PWA/no chrome),
    and explicit **out-of-scope** items.
 7. **Deliverable expectations** — fidelity (hi-fi), how many **variations/options** to explore
@@ -88,6 +91,7 @@ implements from the same text. `prepare-ui-task` emits it filled.
 ## Interactions / API
 <endpoints, optimistic behavior, auth/scoping — if any>
 <data owners, when the view joins several: data area → module/service>
+Fixture data: <where real sample data comes from | none — compose from the spec>
 
 ## Constraints
 <a11y, ≥44px touch, PWA framing, out-of-scope>
