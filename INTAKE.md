@@ -1,6 +1,6 @@
 # INTAKE.md — how to brief Designer (the UI-task input contract)
 
-> **Normative.** The access constraints, the required fields, and the task template below are
+> **Normative.** The dispatch rule, access constraints, required fields, and task template below are
 > defined here and nowhere else. `skills/prepare-ui-task/` reads this file at run time; `PRODUCE.md`
 > triages incoming tasks against it. Change the contract here.
 
@@ -33,8 +33,10 @@ Tracker ticket  ──paste──▶ Designer ──designs──▶ mockups (yo
 - **Screenshots/images — yes**, if attached to the message (needed for redesigns).
 
 ## What a good UI design task MUST contain
-Assemble a task with these fields before handing it to Designer. Missing fields = Designer
-will ask, so fill them up front.
+**Before dispatching a Designer session, fill the task template below or run
+`skills/prepare-ui-task/`.** This applies to every agent and every door, including `LOCAL.md`
+Door 2b. **Designer checks fields 1–7 and asks for each missing field before designing.** Follow
+`PRODUCE.md` → When handed a task to read available sources first.
 
 1. **Surface & audience** — which app/area (admin CRM / parent PWA / instructor PWA / …), who
    uses it, platform (desktop/mobile), themes (light/dark/both), locale (e.g. Polish).

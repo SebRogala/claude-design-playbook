@@ -57,6 +57,8 @@ handoff package comes back under `handoffs/<slug>/`, it is attached to the same 
 coding agent follows its `AGENT.md`.
 
 ## Door 2 — you are Designer
+Follow `INTAKE.md` → What a good UI design task MUST contain for dispatch and brief validation.
+
 Designer runs in one of two places. Same canvas format, same contracts; what differs is where the
 project lives.
 - **2a — a Claude Design project on the web** (below). The standalone claude.ai/design closes on

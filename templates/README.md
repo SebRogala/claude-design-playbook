@@ -23,8 +23,9 @@ Compared against: <ticket id> + <intake brief path>  _(restyle: <template file> 
 
 _(None → "None — the ticket is current.")_
 
-## Tokens
-<values until they exist in the app codebase; then a pointer to the app's token file + new tokens only>
+## Token and component changes
+<app token-file path; explicit token/component diff per HANDOFF.md §5 → Token and component changes>
+<Design System artifact/export paths; agent/session responsible for re-sync>
 
 ## Screens
 ### <Screen>

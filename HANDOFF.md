@@ -118,11 +118,9 @@ Skeleton: `templates/README.md`.
 - Tokens, per-screen layout/components/copy, interactions & state, data shapes,
   glossary, constraints, and a list of **open decisions** the implementer must resolve
   (anything you had to guess, new token candidates awaiting approval, integration choices).
-- **Tokens:** list them with values until they exist in the app codebase. Once an earlier package
-  has put them there, point at the app's token file (the one `AGENT.md` §1 names) and list only the
-  tokens this package introduces — never copy the full table; per-package copies drift. A value
-  that points at a design-tool URL (a canvas upload, `/_blob/<id>`) is replaced by the repo path of
-  its source file, in the table and in any CSS the package ships.
+- **Include `## Token and component changes`** per the flow below, plus the app's token-file
+  pointer (the one `AGENT.md` §1 names). Replace design-tool asset URLs (a canvas upload,
+  `/_blob/<id>`) with the repo path of the source file, in the diff and any CSS the package ships.
 - **`## Spec changes vs ticket`** — where the *final* design departs from the ticket, mined at
   handoff time (decisions churn while designing; only the final state counts). Get the *what* by
   comparing the final design against the ticket spec as pasted in the intake brief — fields,
@@ -141,6 +139,38 @@ Skeleton: `templates/README.md`.
 - Keep the *reasoning* behind non-obvious rules ("destructive actions are never one-click —
   deliberate, for the older user"). An agent that knows why makes better calls where the spec is
   thin. `templates/AGENT.md` §0b is what makes keeping it safe.
+
+#### Token and component changes
+- **Carry changes designed in Design as an explicit diff in the package README:** token name,
+  theme, old → new value (added/removed where applicable), component name, variants/states and
+  behaviour or styling changes, plus a usage note explaining why. Compare against the current
+  code; write "None" for an unchanged category. For a first token file, list all proposed tokens
+  as additions. Reference existing values by their code path rather than copying a full table.
+- **Have the coding agent apply the diff to the code's token file and shared components**, then
+  re-sync the Design System and its token export from code under `PRODUCE.md` → Design System
+  lifecycle. Name the agent/session responsible for that re-sync and its artifact/export paths
+  in the package; complete it before running the drift check.
+
+#### Mechanical enforcement
+- **Set up these checks in the app repo at the first handoff.** Put the chosen commands, config
+  paths, token-file path, shared-component boundary and Design System token-export path in the
+  package's `AGENT.md`; later packages reference that setup and update it when paths change.
+  Select tools for the project's stack; new tools are allowed. The tools below are examples
+  from training data, not required dependencies.
+  - **Enforce token references with a style lint:** reject raw colour and size values outside
+    the token file, including inline styles, CSS-in-JS and arbitrary utility values where the
+    stack supports them (for example, Tailwind bracket values). Use declaration-value restriction
+    rules and utility-class restrictions; stylelint is an example tool.
+  - **Enforce shared controls with a code lint:** reject styling raw controls such as buttons
+    and links outside shared components. Scope syntax/AST restrictions to the shared-component
+    boundary so screens compose those components; ESLint `no-restricted-syntax` or a custom AST
+    rule is an example for a JavaScript stack.
+  - **Enforce token parity with a drift check:** compare the Design System's token export with
+    the code's token file by token name, theme and resolved value; fail on missing, extra or
+    different tokens, or a missing/unreadable input. A parser-based comparison script is one
+    example; formatting differences alone are not drift.
+- **Run all three checks in the pre-push hook and CI**, making failures block the push and CI
+  acceptance. Include the wiring in the first implementation's acceptance checklist.
 
 ### 6. The scope fence — ship a stripped prototype, not the design document
 The working design file accumulates things that are **reasoning, not product**: discarded options
@@ -187,8 +217,9 @@ refusal, an amendment or a ruling.)
    carries, and UI the brief does not list carries the brief's to-confirm marking. A named field
    the data lacks is an open decision in README, with the interim behaviour.
 6. **Tokens against the prototype.** Grep the stripped prototype for the values it renders
-   (radii, font weights, border/bar/rule widths, fixed heights). Each one is in the README token
-   table, or the prototype changes to the nearest token before capture. No token is a range
+   (radii, font weights, border/bar/rule widths, fixed heights). Each one resolves through the
+   code's token file plus README's explicit token diff, or the prototype changes to the nearest
+   token before capture. No token is a range
    (`11–13` cannot be reconciled to one rendered value), and `README.md` and `CHECKLIST.md`
    quote the same value for the same thing.
 7. **Assets against the prototype.** Each external asset in README § Assets matches the

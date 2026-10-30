@@ -6,10 +6,7 @@ a SEPARATE job — see `HANDOFF.md`, and don't touch it until a handoff is expli
 ## When handed a task (triage before building)
 When the user pastes a task description (per `INTAKE.md`), **do this before designing** — don't
 start mocking on an incomplete brief:
-1. **Check completeness** against the `INTAKE.md` contract: surface/audience; the view(s) +
-   purpose; the **spec verbatim** (status enums, defaults/derived states, edge cases, state
-   machine); design-system pointer; interactions/API; constraints; deliverable expectations
-   (fidelity, variations + axis, themes, handoff wanted?).
+1. **Check completeness** against `INTAKE.md` → What a good UI design task MUST contain.
 2. **Fill what you can yourself — read the connected repo.** GitHub access is read-only but real:
    pull tokens/components from the design-system repo, and study existing patterns the task
    references (how similar forms/modals are built, working-hours/slot conventions, how selects
@@ -18,9 +15,9 @@ start mocking on an incomplete brief:
    repo or a named external source before designing. A wrong fact goes back to the user as a ticket
    correction, not into the boards. (Observed in one project: a wrong currency colour in the ticket
    flipped the headline verdict for two of three families until the owner caught it on day 2.)
-4. **Ask only for what you genuinely can't obtain** — missing spec fields, ambiguous scope, and
-   any field the spec omits but the UI plausibly needs (flag it, don't silently invent — e.g. "the
-   field list has no title; workshops may need one — confirm or I'll show it marked 'do potwierdzenia'").
+4. **Follow `INTAKE.md` → What a good UI design task MUST contain for missing fields.**
+   Flag ambiguous scope and UI needs the spec does not address as open questions; don't silently
+   invent them.
 5. **Discuss the key decisions up front** — the variation axis, notable edge cases, and open
    questions — and confirm direction with the user.
 6. **Then design.** (Not before; a wrong assumption pasted into 3 mockups costs more than one question.)
@@ -39,6 +36,20 @@ start mocking on an incomplete brief:
   direction are ambiguous. One good round beats guessing.
 - **Use the token/component layer** of the brand — never raw hex that bypasses it. If a needed
   color/token is missing, invent a clearly-flagged candidate and call it out.
+
+## Design System lifecycle
+- **Build a Design System artifact in the project's first Designer round**, from the code's
+  tokens and shared components: Artifact `quickstart`, the "Design System" type, `from-code.md`.
+  Keep the code's token names and values. In later rounds, read that artifact and the current
+  code before designing; re-sync the artifact from code when they differ. Record the artifact
+  URL, token-file path and token-export path in `PROJECT.md` → File map.
+- **Keep token values in one home: the code's token file** (for example, `tokens.css`). The
+  Design System and its token export mirror that file; they never become a second authority.
+  For greenfield work without code tokens yet, record the picked spine as proposed values until
+  the first handoff establishes the code's token file; then re-sync the artifact from it.
+- **Design component and token changes in Design**, marking proposed changes with a usage note
+  saying what changes and why. Carry them to code through `HANDOFF.md` §5 → Token and component
+  changes; use that flow to re-sync the Design System after implementation.
 
 ## Greenfield: directions first
 Applies when the brief says `none — greenfield`: there is no system to follow yet, so establish one
@@ -60,6 +71,11 @@ before building screens.
   to pre-solve it. Read the real source if available, then enumerate the concrete failures
   (e.g. "4 unlabeled grey icons, no semantic color, default state reads as alarm") before
   redesigning. Name the root cause; the fix follows from it.
+- **Treat "the whole app is hard to read" as a system brief.** Diagnose across
+  screens into a short failure list (e.g. labels, chips and buttons share one style; text under
+  12px; no screen says what it is for), fix it in the design system first, then redraw the key
+  screens on it. (Observed in one project: the Operator said "labels and buttons feel like the
+  same"; the cause was one mono 10.5px uppercase style shared by four roles.)
 - **Multi-surface? Check mechanical compatibility.** If the product has more than one surface
   (e.g. admin CRM + end-user PWA) touching the same domain, verify they share one model —
   same status enum, same default semantics, same API-shaped actions. Flag drift explicitly and
@@ -75,10 +91,21 @@ before building screens.
   with intent, not noise.
 - Both light and dark if the product needs it. Respect accessibility (contrast, the project's
   touch-target floor — ≥44px on touch devices).
+- **Measure contrast with a script every round,** for every text token on every ground it
+  sits on, and for control borders and focus rings on their grounds (3:1, WCAG 1.4.11). Convert
+  OKLCH or HSL to sRGB luminance; do not judge by eye. (Observed in one project: an estimate called
+  a legacy muted token failing; measured, it passed at 6.0:1, and the change only added a
+  deviation, while the real failure, control borders at 1.5:1, went unnoticed.)
 - Placeholders beat bad guesses — use labelled placeholders for missing assets/imagery.
 - **Sample data from the real source when one exists.** The brief's fixture-data field names it
   (`INTAKE.md` field 5); real values make boards credible from round 1 and become the handoff's
   `fixtures.json`. Invent data only when the field says there is none.
+- **Use app-repo code as a real source too:** API types, seeded definitions and
+  catalogs give ids, enums, field names and outcome names. Read them before drawing and use
+  them verbatim; a column or field the API type lacks is an open question, not a board element.
+  Missing facts are `[placeholder]`s. (Observed in one project: step ids, roles and outcomes
+  came from the server's catalog; an invented "Entry" column was caught only against the
+  API's summary type.)
 - **Check computed figures.** When a board shows derived numbers (EV, totals, rates), run the
   calculation on the fixture data outside the canvas and compare. A rendering check does not
   catch a wrong formula.
@@ -105,6 +132,27 @@ before building screens.
   every instance across all boards in the same round, and log the rule in `PROJECT.md`.
 - Keep the design in as few files as sensible; add screens/variations to the existing artifact
   rather than forking into many files. Present options clearly labelled on a neutral canvas.
+
+## Element grammar (one look per role)
+Give each element role one distinct look. Follow the default [Design System lifecycle](#design-system-lifecycle):
+build the Design System from the code's tokens and shared components. Write the table into the
+design system's README and check every board against it.
+
+| Role | Look |
+|---|---|
+| Do (button) | a box: fill or border, sentence case; ghost buttons keep a border |
+| Go (link) | underlined accent text, no box |
+| Name (label) | plain muted text, no box; uppercase only for group labels over a block |
+| State (badge) | a tinted pill, no border, no hover, no pointer |
+| Id | mono, exactly as stored |
+
+- Reserve hover states for buttons, links, inputs and selectable cards.
+- Give buttons a fill or border per the role table above. (Observed in one project: ghost buttons rendered as
+  plain text and repeated the owner's complaint until the render check caught them.)
+- Give each screen a one-line purpose caption under its title ("Step graphs the run engine
+  executes for this project."): what it is for, not how to use it. This is not onboarding copy.
+- Set a text-size floor for dense desktop tools (11px) and a row and control height in the token
+  spine (`row-h`, `control-md`, `control-sm`), so density is one decision, not per board.
 
 ## Surface & field-control patterns (which container a view lives in)
 Decide a view's **surface** by the weight and linkability of the task — not by habit. Getting this

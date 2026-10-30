@@ -25,6 +25,10 @@ design/
   reference/                     reference assets the boards use (see What goes in git)
   handoffs/<slug>/               handoff packages + handoffs/README.md
 ```
+**Use the brief's run folder in place of `design/` when repo writes are forbidden,** with
+the same layout; `PROJECT.md` lives there and names the canvas URL. Move it into `design/`
+when repo writes are allowed.
+
 `<canvas-slug>`: one canvas per module, the HANDOFF.md slug of the brief's breadcrumb down to the
 module it adds or changes, without the ticket id (`desktop-app--reports--monthly-summary`).
 A later brief under the same module reuses that canvas as a new page.
@@ -69,6 +73,8 @@ Entries for the app repo's `.gitignore` (public repo; a private repo drops the f
 ```
 
 ## Three sessions
+Follow `INTAKE.md` → What a good UI design task MUST contain for dispatch and brief validation.
+
 Keep them separate, so the adversarial completeness pass (`templates/AGENT.md` §4.5) is still
 done by an agent that did not build the design.
 1. **App session** — where scope is discussed. Writes the brief to `design/tasks/<slug>.intake.md`
@@ -81,7 +87,8 @@ done by an agent that did not build the design.
    `/design You are Designer. Read <playbook clone>/README.md (Door 2b) and LOCAL.md and set up design/ as they say; the brief is design/tasks/<slug>.intake.md.`
    Designer then creates `design/CLAUDE.md` and `design/PROJECT.md` from the templates, records the
    repo visibility, and adds the `.gitignore` entries (What goes in git) before anything else in
-   `design/` is written. A bare `/design <brief>` loads only the Design type and skips the playbook
+   `design/` is written. Skip the `.gitignore` edits when repo writes are forbidden; use the brief's
+   run folder per Layout. A bare `/design <brief>` loads only the Design type and skips the playbook
    (observed in one project: day 1 ran with no `PROJECT.md`, decisions log or token spine).
    The Designer writes only under `design/`. Changes it thinks the app spec or this playbook need
    go to the user (spec) or `design/pilot-notes.md` (playbook), never into those files directly.
@@ -110,9 +117,10 @@ answer in `design/CLAUDE.md`.
 - **No `Index.dc.html`.** Canvas pages plus `handoffs/README.md` cover navigation within a canvas,
   and `PROJECT.md` → File map lists the canvases (observed in one project: the owner navigated by page
   and never asked for an index).
-- **The design system is the repo's own.** The tokens and components the brief points at are the
-  design system. A Design System artifact is neither required nor created, so the Design type
-  reporting "no design system" is expected and is not PRODUCE.md's "no design context → ask".
+- **Follow `PRODUCE.md` → Design System lifecycle.** Install that artifact on the canvas
+  (`project/ds/<namespace>/`, `designSystems` record) and link its `tokens.css` and
+  `components/bundle.css` from every board. After a re-sync from code, refresh the installed
+  canvas copy from the artifact.
 - **Canvas source lives in the repo.** Publish with the Artifact `root` set to
   `design/canvas/<canvas-slug>`, not the scratchpad. This overrides the Design type's own
   "scratch only, never commit" line. Commit after each round when the user answers yes to an
@@ -128,10 +136,13 @@ answer in `design/CLAUDE.md`.
   the capture tool (Capturing reference PNGs) and read the PNGs back. Observed in one project: with
   the user as the only reviewer, day 1's visual bugs were all found by the owner; the first local
   render caught six more at once. Computed figures are checked too (PRODUCE.md → While building).
+  Render the first round too, under the same override above. (Observed in one project: round 1
+  went out unrendered and the first render found four defects, one of them the exact problem
+  the brief was about.)
 - **Shared components are real files.** Shared styles go in `project/theme.css`, linked from each
   board; the component inventory is `design/system/components.md`. A token whose value is a canvas
-  upload (`url(/_blob/<id>)`) works only on the canvas: the handoff's token table gives the repo
-  path of the source file instead.
+  upload (`url(/_blob/<id>)`) works only on the canvas; follow `HANDOFF.md` §5 for its handoff
+  representation.
 - **Recreated app chrome keeps the app's glyphs.** The Design type bans emoji; when PRODUCE.md's
   app-chrome rule recreates existing UI that uses emoji, the recreation keeps them.
 - **No standalone export.** `<Name>-standalone.html` is not produced; the canvas link and its
@@ -161,6 +172,8 @@ PNGs. It needs Chrome and Node 22 or later. Run it from a staging folder in the 
 from the repo.
 1. **Stage the boards.** Make an empty `site/` and copy every file of
    `design/canvas/<canvas-slug>/project/` except `canvas.json` into it (boards and shared CSS).
+   Stage an installed design system's files under `project/ds/<folder>/` from the system's own
+   source at the same paths; server-side copies may not be on disk.
 2. **Stage the runtime.** Artifact `read`, `url` = the canvas, `path` = `artifact-type/dc-runtime.js`;
    copy the saved file to `site/support.js`.
 3. **Stage the uploads.** For each `/_blob/<id>` the boards reference, put the file at
@@ -180,6 +193,9 @@ from the repo.
    unfilled; the log names the PNG. Chrome needs to write its profile and open local ports, which
    Claude Code's sandbox can block: observed working with `TMPDIR` pointed at the scratchpad's
    parent in one project and, in another, only with the sandbox disabled for the command.
+   Where neither works, pass Playwright's headless shell:
+   `--chrome ~/.cache/ms-playwright/chromium_headless_shell-<n>/chrome-headless-shell-linux64/chrome-headless-shell`
+   (observed working in one project inside the sandbox, with TMPDIR at the scratchpad).
 7. **Read every PNG back** before copying it into `handoffs/<slug>/reference_screens/`: bottom
    edge present, no trailing blank space, no placeholder text. After a prototype change, re-stage
    that board and rerun only its entries.
