@@ -13,6 +13,11 @@ to read files can follow. It has been tested with Claude Code.
 > Claude Code session using `/design` (Door 2).
 
 ## For humans: how it's used
+Clone this repository locally for every local agent (the app's coding agent, a Claude Code
+`/design` session). Resolve their playbook references and every filled handoff template against
+that clone, written `<playbook clone>`. A web Claude Design project reads the playbook from GitHub
+instead (`CLAUDE.template.md` → Playbook source).
+
 1. **Start a new Claude Design project and point it at this playbook first.** Designer copies the
    project files in and wires up the design context (Door 2 below) before any design work.
 2. **Send the brief.** In the app's own coding-agent session (on your machine), have the agent

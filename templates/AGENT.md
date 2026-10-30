@@ -91,8 +91,8 @@ unconfirmed: build what the package shows and flag it in `NOTES.md` under the sa
   markup. Verbatim structural copy is the drift this protocol exists to prevent.
 - **Use the design tokens, never raw colors.** <where tokens come from>
 - **Apply README → Token and component changes** using the playbook source
-  [HANDOFF.md §5 → Token and component changes](https://github.com/SebRogala/claude-design-playbook/blob/main/HANDOFF.md#token-and-component-changes).
-- **Follow the playbook source [HANDOFF.md §5 → Mechanical enforcement](https://github.com/SebRogala/claude-design-playbook/blob/main/HANDOFF.md#mechanical-enforcement).** <chosen commands/config paths;
+  `<playbook clone>/HANDOFF.md` §5 → Token and component changes.
+- **Follow the playbook source `<playbook clone>/HANDOFF.md` §5 → Mechanical enforcement.** <chosen commands/config paths;
   token-file path; shared-component boundary; Design System token-export path; first handoff:
   setup and pre-push/CI wiring in CHECKLIST.md; later handoffs: existing setup pointer>
 - **All UI copy in <locale>**, exactly as in the reference.
