@@ -46,7 +46,7 @@ breadcrumb, directory, date.
 - Open with a **"⛔ MUST NOT DROP"** block listing the edge cases agents skip. Enumerate them
   explicitly for THIS design — e.g. null/empty states, error/cancelled/pending variants,
   conditional affordances that must hide cleanly (no layout gap), locale pluralization,
-  config-driven 1..N UI that collapses at N=1, every theme in scope, accessibility bar, tokens-only,
+  config-driven 1..N UI that collapses at N=1, the shared Pagination component under every result list, shared components reused with none built inline (containers included), every theme in scope, accessibility bar, tokens-only,
   exact localized copy.
 - Then a per-screen section of tickable, testable lines. Unticked = not done.
 
@@ -146,6 +146,11 @@ Skeleton: `templates/README.md`.
   behaviour or styling changes, plus a usage note explaining why. Compare against the current
   code; write "None" for an unchanged category. For a first token file, list all proposed tokens
   as additions. Reference existing values by their code path rather than copying a full table.
+- **Mark every component first drawn in this design as `new`:** kind (leaf or container),
+  variants, states, usage note, and the path in the code's shared-component boundary where it
+  lands. The coding agent reuses an existing app component that matches; when none does, it
+  creates the component in that boundary and never inline in a screen (rule:
+  `PRODUCE.md` → Component reuse).
 - **Have the coding agent apply the diff to the code's token file and shared components**, then
   re-sync the Design System and its token export from code under `PRODUCE.md` → Design System
   lifecycle. Name the agent/session responsible for that re-sync and its artifact/export paths
@@ -161,10 +166,13 @@ Skeleton: `templates/README.md`.
     the token file, including inline styles, CSS-in-JS and arbitrary utility values where the
     stack supports them (for example, Tailwind bracket values). Use declaration-value restriction
     rules and utility-class restrictions; stylelint is an example tool.
-  - **Enforce shared controls with a code lint:** reject styling raw controls such as buttons
-    and links outside shared components. Scope syntax/AST restrictions to the shared-component
-    boundary so screens compose those components; ESLint `no-restricted-syntax` or a custom AST
-    rule is an example for a JavaScript stack.
+  - **Enforce shared components with a code lint:** reject styling raw controls such as buttons
+    and links, and hand-built containers (page shell, panel, card, modal, drawer, tab bar,
+    list/table, pagination, empty state), outside shared components. Reject a screen file that
+    defines a styled wrapper or local component for one of these. Scope syntax/AST
+    restrictions to the shared-component boundary so screens compose those components; ESLint
+    `no-restricted-syntax` or a custom AST rule is an example for a JavaScript stack. The lint
+    catches what it can name; the CHECKLIST reuse line and the adversarial pass cover the rest.
   - **Enforce token parity with a drift check:** compare the Design System's token export with
     the code's token file by token name, theme and resolved value; fail on missing, extra or
     different tokens, or a missing/unreadable input. A parser-based comparison script is one

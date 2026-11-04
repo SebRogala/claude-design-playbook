@@ -20,7 +20,8 @@
 - **Type:** _pairing + scale._
 - **Color/background tones, accents:** _…_
 - **Layout / density / spacing / radius:** _…_
-- **Shared components built:** _list as they're created._
+- **Shared components built (inventory):** _every component on first appearance, containers included: name, kind, variants, status `new` | `in code`, board._
+- **Standing waivers and exceptions:** _rules the brief waives for this project (e.g. paginator on result lists) and each custom one-off element: element, the shared component it could not extend, who approved (`PRODUCE.md` → Component reuse)._
 
 ## Screen inventory (the plan + status) — mirrors the Index page
 | # | Page path (breadcrumb) | Status | File / frame id | Notes |

@@ -79,8 +79,8 @@ project lives.
    `none — greenfield` → nothing to wire; run directions first (`PRODUCE.md` → Greenfield:
    directions first). **Otherwise, no design context → stop and ask; never mock from scratch.**
 3. Triage the brief per `PRODUCE.md` ("When handed a task"), agree scope, write the screen
-   inventory into `PROJECT.md`, then design — token spine committed with the first screen (greenfield: the picked direction), shared
-   components extracted once two screens exist (`PRODUCE.md` → While building). Log decisions
+   inventory into `PROJECT.md`, then design — token spine committed with the first screen (greenfield: the picked direction),
+   every element a shared component from its first appearance (`PRODUCE.md` → Component reuse). Log decisions
    into `PROJECT.md` as you go.
 4. Read `HANDOFF.md` and `templates/` **only** when the user asks for a handoff.
 
@@ -91,7 +91,7 @@ working project and handed back — the user commits them here.
 - [ ] `CLAUDE.md` + `PROJECT.md` in the project root, specifics filled from the brief.
 - [ ] Design context wired (tokens/components attached or linked) — or, greenfield, a direction picked.
 - [ ] Scope + screen inventory agreed and written into `PROJECT.md`.
-- [ ] Token spine committed with the first screen; shared components extracted at two screens.
+- [ ] Token spine committed with the first screen; each element a shared component from first appearance, recorded in the inventory (`PRODUCE.md` → Component reuse).
 - [ ] Producing ≠ handing off — `HANDOFF.md` untouched until a handoff is requested.
 
 ## Repo contents

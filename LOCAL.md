@@ -21,7 +21,7 @@ design/
   PROJECT.md                     PROJECT.template.md, filled in; holds each canvas URL
   tasks/<slug>.intake.md         the brief: INTAKE.md's task template, filled in
   canvas/<canvas-slug>/project/  the canvas source: canvas.json + *.dc.html + theme.css, committed
-  system/components.md           the component inventory: name, board, variants (greenfield)
+  system/components.md           the component inventory: name, kind (leaf | container), board, variants, status (new | in code)
   reference/                     reference assets the boards use (see What goes in git)
   handoffs/<slug>/               handoff packages + handoffs/README.md
 ```
@@ -140,7 +140,10 @@ answer in `design/CLAUDE.md`.
   went out unrendered and the first render found four defects, one of them the exact problem
   the brief was about.)
 - **Shared components are real files.** Shared styles go in `project/theme.css`, linked from each
-  board; the component inventory is `design/system/components.md`. A token whose value is a canvas
+  board; the component inventory is `design/system/components.md`. Record every component,
+  containers included, in the inventory on its first appearance, status `new` until a handoff lands
+  it in code (`PRODUCE.md` → Component reuse). Row: `| Pagination | container | Orders list |
+  default, compact | new |`. A token whose value is a canvas
   upload (`url(/_blob/<id>)`) works only on the canvas; follow `HANDOFF.md` §5 for its handoff
   representation.
 - **Recreated app chrome keeps the app's glyphs.** The Design type bans emoji; when PRODUCE.md's
@@ -150,7 +153,7 @@ answer in `design/CLAUDE.md`.
 
 **HANDOFF.md**
 - The package goes to `design/handoffs/<slug>/` and is committed. §7's download card and
-  `<product>-handoff--<slug>.zip` are dropped; registering on the Index stays.
+  `<product>-handoff--<slug>.zip` are dropped, and so is registering on the Index (no `Index.dc.html`); the `handoffs/README.md` row is the register.
 - **§6 stripped prototype** — make it an artboard on a `handoff` page of the same canvas, named
   `<Screen>-prototype.dc.html`, so it renders where the user can see it. The package points at
   its file under `design/canvas/<canvas-slug>/project/` and at the canvas URL; no copy, no

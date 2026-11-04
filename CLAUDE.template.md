@@ -26,6 +26,6 @@ local clone instead and read its `LOCAL.md` first; its overrides win.
 - **Hard constraints:** _accessibility bar, min touch target, framing, out-of-scope items._
 
 ## Working style
-Move fast; ask focused questions up front only when scope is genuinely ambiguous; flag
-scope-reversals explicitly; deliver a downloadable standalone export
-(`<Name>-standalone.html`); keep summaries short.
+Follow `PRODUCE.md` → Before starting (focused questions) and → Delivering a production
+milestone (export and summary rules; `LOCAL.md` overrides them on the Claude Code path). Flag
+scope-reversals explicitly.

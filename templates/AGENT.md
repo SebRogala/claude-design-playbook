@@ -14,8 +14,7 @@ mocked. Concretely that means:
 - **Real route/URL** the view will actually live at (not a `/design/` or preview path).
 - **Real module placement** in the codebase, **real app layout/shell** (the actual nav, header,
   chrome), **real navigation** in and out of the view.
-- **Real app components & conventions** — the existing Button, Input, Select, Modal, etc. Never
-  re-style or hand-roll what the app already has a component for.
+- **Real app components & conventions, containers included.** Reuse the app's existing component for each element: Button, Input, Select, Modal, and the page shell, panel, card, drawer, tab bar, toolbar, list/table, Pagination and empty state. When the app has none, create it once in the shared-component boundary (README → Token and component changes names it) and use it from the screen; a screen never defines the element inline or re-styles an existing component.
 - **Data mocked at the real seam** — pass mock values through the *same* boundary the view will read
   real data from, so going live = **swap the data source only**, no re-layout. Do NOT build a
   backend, auth, or real persistence.
@@ -96,7 +95,7 @@ unconfirmed: build what the package shows and flag it in `NOTES.md` under the sa
   token-file path; shared-component boundary; Design System token-export path; first handoff:
   setup and pre-push/CI wiring in CHECKLIST.md; later handoffs: existing setup pointer>
 - **All UI copy in <locale>**, exactly as in the reference.
-- **Use the codebase's existing patterns/components.** If greenfield, pick one stack, stay in it.
+- **Use the codebase's existing patterns/components** (§0 for components). If greenfield, pick one stack, stay in it.
 - **Do NOT drop CHECKLIST.md → "MUST NOT DROP".** Those edge cases are required.
 - **Do NOT add features** beyond the listed screens. Log ideas in `NOTES.md`; don't build them.
 - Any affordance the reference implies (password show/hide, clear button, validation states) must
@@ -144,7 +143,7 @@ visual boxes without one.
 ## 4. Implementation order (smallest blast radius first)
 1. Tokens (+ theme switch when more than one theme is in scope) — verify on a throwaway swatch
    page in every theme in scope; delete it before committing, it is not product (§0b)
-2. Shared components
+2. Shared components — create each `new` component from README → Token and component changes here, before any screen
 3. …screens, one per task…  <list them>
 4. Full pass — run the whole CHECKLIST end to end in every theme in scope.
 5. **Adversarial completeness pass** — a reviewer that did NOT build the screens audits the

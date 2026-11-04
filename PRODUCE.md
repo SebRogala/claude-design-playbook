@@ -51,6 +51,27 @@ start mocking on an incomplete brief:
   saying what changes and why. Carry them to code through `HANDOFF.md` §5 → Token and component
   changes; use that flow to re-sync the Design System after implementation.
 
+## Component reuse (every element is a shared component from its first appearance)
+- **Make each UI element a shared component the first time it appears.** The first board that
+  needs a button, field, badge, row or container adds it to the Design System as the single source,
+  marked `new` with a usage note (kind, variants, states), and records it in the inventory
+  (`PROJECT.md` → Design system decisions → Shared components built; on the Claude Code path
+  `design/system/components.md`). Every later use reuses it; no board draws that element freehand
+  or restyles it. Add components when a board needs them, not ahead of need.
+- **Containers are components too:** page shell, panel/section, card, modal/dialog, drawer, tab
+  bar, toolbar, list/table with its paginator, empty state. Compose each board from them; most of
+  a screen is components and custom markup is the exception.
+- **Look up before drawing:** check the inventory and the code's shared components. Reuse a
+  match; extend it with a variant when the need is a different look; add a new component only
+  when none fits.
+- **Record a custom one-off in `PROJECT.md` → Standing waivers and exceptions before drawing it:**
+  the element, the shared component it could not extend, and the owner's approval. "Quick to
+  draw", "used once" and "hard to fit" explain effort, not need, so extend the component. An
+  element without the entry is a shared component.
+- **The code owns the components.** The Design System mirrors the code's shared components
+  (lifecycle above). A component new in Design is proposed there, marked `new`, and travels to
+  code through `HANDOFF.md` §5 → Token and component changes, which names where it lands.
+
 ## Greenfield: directions first
 Applies when the brief says `none — greenfield`: there is no system to follow yet, so establish one
 before building screens.
@@ -83,12 +104,10 @@ before building screens.
 
 ## While building
 - **Greenfield:** the **token spine** (type, neutrals, 1–2 accents, spacing/radius/density) is the
-  direction picked in "Greenfield: directions first", and ships *with* the first screen. Extract
-  shared components once 2 screens exist — containers included (page shell, panel/section, strip,
-  tab bar, dock, drawer), not only leaf controls; each board composes from them instead of restyling
-  its own. Don't author a library speculatively. With an existing design system,
-  use its tokens/components instead. Either way, apply the system consistently; introduce variety
-  with intent, not noise.
+  direction picked in "Greenfield: directions first", and ships *with* the first screen, together
+  with that screen's components per "Component reuse". With an existing design system, use its
+  tokens/components instead. Either way, apply the system consistently; introduce variety with
+  intent, not noise.
 - Both light and dark if the product needs it. Respect accessibility (contrast, the project's
   touch-target floor — ≥44px on touch devices).
 - **Measure contrast with a script every round,** for every text token on every ground it
@@ -124,6 +143,11 @@ before building screens.
   (one file in the canvas folder, or one section of `PROJECT.md`), so counts, names and totals
   agree across boards. It grows into the handoff's `fixtures.json`. (Observed in one project: each
   board hard-coded its own data and they disagreed until the handoff reconciliation.)
+- **Every result list gets the shared Pagination component by default.** A screen or board that
+  lists results (search hits, a catalog, a records table) places the Design System's `Pagination`
+  below the list, its total taken from the shared sample dataset. The component is added on first
+  appearance per "Component reuse"; a board never redraws it. Leave it out only when the brief or
+  `PROJECT.md` says so.
 - **An owner's sketch that replaces the briefed variants** becomes a new round (page) with its own
   board. Record in `PROJECT.md`'s decisions log which variants it retires; retired boards stay on
   their page with "(retired)" in their title.
