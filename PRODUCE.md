@@ -34,6 +34,8 @@ start mocking on an incomplete brief:
   view directly from the ticket; don't route through a coding-agent handoff first.
 - **Ask focused questions up front** when scope, audience, fidelity, option-count, or visual
   direction are ambiguous. One good round beats guessing.
+- **Apply each add-in the brief's `Add-ins:` field lists** — read `addins/<name>.md` and follow
+  it, with the brief's settings and any pasted taste profile.
 - **Use the token/component layer** of the brand — never raw hex that bypasses it. If a needed
   color/token is missing, invent a clearly-flagged candidate and call it out.
 
@@ -173,8 +175,12 @@ design system's README and check every board against it.
 - Reserve hover states for buttons, links, inputs and selectable cards.
 - Give buttons a fill or border per the role table above. (Observed in one project: ghost buttons rendered as
   plain text and repeated the owner's complaint until the render check caught them.)
-- Give each screen a one-line purpose caption under its title ("Step graphs the run engine
-  executes for this project."): what it is for, not how to use it. This is not onboarding copy.
+- Put each app screen's one-line purpose caption ("Step graphs the run engine executes for this
+  project.": what it is for, not how to use it) in one shared component. Default: hidden, shown
+  behind a Settings toggle "Show explanations"; the brief can set always-on. Draw the caption once, in
+  the shared component; boards show it with the toggle on. (Observed in one project: the owner removed
+  nearly all always-on captions.) Websites: ship without captions unless the brief says otherwise
+  (`addins/no-ai-slop.md` adds the ask-once flow).
 - Set a text-size floor for dense desktop tools (11px) and a row and control height in the token
   spine (`row-h`, `control-md`, `control-sm`), so density is one decision, not per board.
 

@@ -101,6 +101,13 @@ Fixture data: <where real sample data comes from | none — compose from the spe
 ## Deliverable
 Fidelity: hi-fi. Variations: <N, on which axis | greenfield: ~3 system directions first>. Themes: <…>. Handoff wanted: <yes/no — stack>.
 
+## Add-ins (optional)
+Add-ins: <none | name (settings); name (settings)>, e.g. no-ai-slop (spacing: compact|balanced|airy)   (rules: `addins/<name>.md`)
+Taste profile: <none | text under "Taste profile" below>
+
+## Taste profile
+<operator's pasted taste profile, or omit>
+
 ## Open questions (flag, don't invent)
 <anything the spec omits but the UI needs>
 ```

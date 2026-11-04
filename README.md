@@ -102,6 +102,7 @@ working project and handed back — the user commits them here.
 | `CLAUDE.template.md` | Per-project pointer → drop in as `CLAUDE.md` | Designer, auto-loaded every session |
 | `PROJECT.template.md` | Per-project living brain → drop in as `PROJECT.md` | Designer, read/updated every session |
 | `PRODUCE.md` | Design-production conventions | Designer, while designing |
+| `addins/` | Optional design rules a brief opts into (`no-ai-slop.md`) | Designer, when the brief's `Add-ins:` field lists one |
 | `HANDOFF.md` | The 1:1 agent-handoff playbook | Designer, **only** when a handoff is requested |
 | `LOCAL.md` | Overrides for Designer running in Claude Code (pilot) | Designer on Door 2b, every session |
 | `tools/capture-canvas.mjs` | Renders canvas boards to full-height reference PNGs | Designer on Door 2b, at handoff (`LOCAL.md` → Capturing reference PNGs) |
