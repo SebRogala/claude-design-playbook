@@ -13,6 +13,9 @@ Claude Code v2.1.265 or later). The canvas is the same in both: `.dc.html` artbo
 pan/zoom canvas, editable by hand in the browser. What changes is the container. A Claude Code
 canvas is an Artifact: no project, no project chat, no project files, and artifacts cannot be
 grouped into folders. The app repo takes the project's place.
+Put what the Designer needs in the playbook or its `CLAUDE.md`, not in a claude.ai Customize >
+Skills personal skill: Anthropic documents those for chat, Claude Code, the API and the Office
+add-ins, not the canvas (articles 12512180, 12512198; unverified, test before relying on one).
 
 ## Layout in the app repo
 ```
@@ -81,6 +84,11 @@ done by an agent that did not build the design.
    and hands the user the Designer's first prompt, verbatim, from below
    (`skills/prepare-ui-task/` step 5). Owns the app's spec documents and the ticket: spec changes
    decided while designing are written back here (or by the implementer, `templates/AGENT.md` §0b).
+   **Changing a brief the Designer already read:** add a dated `## Update <YYYY-MM-DD>` at its top
+   with only the changes and decisions since that version (the brief's git log, or the Designer's
+   first Decisions log date). Frame them as advisory, re-derived notes: "check against `design/PROJECT.md`
+   → Decisions log and the canvas; on conflict keep the recorded decision and flag it". (Observed
+   in one project, web path: the user's own canvas passes outran the brief.)
 2. **Designer session** — a new Claude Code session at the app repo root. First prompt:
    `/design You are Designer. Read design/CLAUDE.md and follow it; the brief is design/tasks/<slug>.intake.md.`
    **First run in a repo** (no `design/CLAUDE.md` yet):
